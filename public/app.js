@@ -16,6 +16,34 @@ const state = {
 
 const desktopMediaQuery = window.matchMedia("(min-width: 981px)");
 
+const HELP_REFERENCES = [
+  {
+    id: "ref-988-help",
+    href: "https://988lifeline.org/get-help/",
+    label: "988 Lifeline Get Help page (updated date not listed by source; accessed April 7, 2026)",
+  },
+  {
+    id: "ref-988-faq",
+    href: "https://988lifeline.org/current-events/the-lifeline-and-988/",
+    label: "988 Lifeline overview of 988 and crisis support (updated date not listed by source; accessed April 7, 2026)",
+  },
+];
+
+const ADHD_EXTRA_REFERENCES = [
+  {
+    id: "ref-adhd-adults",
+    href: "https://www.psychiatry.org/patients-families/adhd/adhd-in-adults",
+    label:
+      "American Psychiatric Association, ADHD in Adults (physician review listed; updated date not listed by source; accessed April 7, 2026)",
+  },
+  {
+    id: "ref-adhd-anxiety",
+    href: "https://pmc.ncbi.nlm.nih.gov/articles/PMC11409565/",
+    label:
+      "Are We Measuring ADHD or Anxiety? Examining the Factor Structure and Discriminant Validity of the Adult ADHD Self-Report Scale in an Adult Anxiety Disorder Population (published January 30, 2024; PMC article accessed April 7, 2026)",
+  },
+];
+
 function escapeHtml(value) {
   return String(value)
     .replaceAll("&", "&amp;")
@@ -39,6 +67,41 @@ function trackPageView() {
 
 function slugForDiagnosis(diagnosis) {
   return `/diagnosis/${diagnosis.id}`;
+}
+
+function supportPagePath(diagnosis, slug) {
+  return `/diagnosis/${diagnosis.id}/${slug}/`;
+}
+
+function getDiagnosisSupportPages(diagnosis) {
+  const pages = [
+    { slug: "symptoms-and-signs", title: `${diagnosis.name} Symptoms and Signs` },
+    { slug: "criteria-guide", title: `${diagnosis.name} DSM Criteria Guide` },
+    { slug: "scales-and-assessment", title: `${diagnosis.name} Scales and Assessment Tools` },
+    { slug: "treatments-and-medications", title: `${diagnosis.name} Treatments and Medications` },
+    { slug: "when-to-seek-help", title: `When to Seek Professional Help for ${diagnosis.name}` },
+  ];
+
+  if (diagnosis.id === "adhd") {
+    pages.splice(
+      1,
+      0,
+      { slug: "adhd-symptoms-in-adults", title: "ADHD Symptoms in Adults" },
+      { slug: "adhd-vs-anxiety", title: "ADHD vs Anxiety" }
+    );
+  }
+
+  return pages;
+}
+
+function gatherDiagnosisReferences(diagnosis) {
+  const references = [...HELP_REFERENCES];
+
+  if (diagnosis.id === "adhd") {
+    references.push(...ADHD_EXTRA_REFERENCES);
+  }
+
+  return references.filter((reference, index, array) => array.findIndex((item) => item.id === reference.id) === index);
 }
 
 function getSelectedDiagnosis() {
@@ -232,6 +295,14 @@ function renderMedications(diagnosis) {
                       </ul>`
                     : `<p class="empty-copy">No diagnosis-specific FDA medication entry is listed in this prototype section.</p>`
                 }
+                <div class="side-effect-note">
+                  <h5>Common treatment side effects</h5>
+                  ${section.sideEffects?.length
+                    ? `<ul class="profile-list">
+                        ${section.sideEffects.map((effect) => `<li>${escapeHtml(effect)}</li>`).join("")}
+                      </ul>`
+                    : `<p class="empty-copy">Review the linked DrugBank pages for adverse effects. DrugBank side-effect summaries are not fully accessible to this build pipeline, so this section is only filled when a verified list is available.</p>`}
+                </div>
               </article>
             `
           )
@@ -287,6 +358,85 @@ function renderArticles(diagnosis) {
   `;
 }
 
+function renderSupportLinks(diagnosis) {
+  return `
+    <section class="profile-section">
+      <h3>Related Guides</h3>
+      <ul class="support-link-list">
+        ${getDiagnosisSupportPages(diagnosis)
+          .map(
+            (page) => `
+              <li>
+                <a href="${supportPagePath(diagnosis, page.slug)}">${escapeHtml(page.title)}</a>
+              </li>
+            `
+          )
+          .join("")}
+      </ul>
+    </section>
+  `;
+}
+
+function renderAdditionalSeoSections(diagnosis) {
+  if (diagnosis.id !== "adhd") {
+    return "";
+  }
+
+  return `
+    <section class="profile-section">
+      <h3>6. ADHD symptoms in adults</h3>
+      <ul class="profile-list">
+        <li>Adult ADHD often looks less like obvious childhood hyperactivity and more like restlessness, difficulty organizing life, inconsistent follow-through, and trouble sustaining attention on tasks that are not especially interesting.<sup><a href="#ref-adhd-adults">1</a></sup></li>
+        <li>Adults may describe impulsive decision-making, emotional reactivity, procrastination, chronic lateness, forgetfulness, and trouble managing long or detail-heavy tasks.<sup><a href="#ref-adhd-adults">1</a></sup></li>
+        <li>A good evaluation usually includes current symptoms, childhood history, developmental and social history, impairment across settings, and screening for other psychiatric conditions that can mimic or overlap with ADHD.<sup><a href="#ref-adhd-adults">1</a></sup></li>
+      </ul>
+    </section>
+    <section class="profile-section">
+      <h3>7. ADHD vs anxiety</h3>
+      <ul class="profile-list">
+        <li>ADHD and anxiety can overlap around concentration problems, restlessness, sleep disruption, irritability, and a sense of mental overload, which is one reason ADHD is often missed in anxious adults.<sup><a href="#ref-adhd-anxiety">2</a></sup></li>
+        <li>In anxious adult populations, some hyperactivity-type items such as difficulty relaxing and feeling driven by a motor may reflect anxiety more than ADHD when taken in isolation.<sup><a href="#ref-adhd-anxiety">2</a></sup></li>
+        <li>The most useful clinical move is to look past one overlapping symptom and ask about developmental timing, lifelong pattern, setting-specific impairment, and whether the attentional symptoms persist even when anxiety is lower.<sup><a href="#ref-adhd-anxiety">2</a></sup></li>
+      </ul>
+    </section>
+  `;
+}
+
+function renderWhenToSeekHelp() {
+  return `
+    <section class="profile-section">
+      <h3>When to seek professional help</h3>
+      <ul class="profile-list">
+        <li>Seek urgent help if there are thoughts of suicide, self-harm, or feeling unable to stay safe.<sup><a href="#ref-988-help">3</a></sup></li>
+        <li>Seek urgent help if there are thoughts of harming someone else, escalating violent urges, or loss of behavioral control.<sup><a href="#ref-988-help">3</a></sup></li>
+        <li>Take hopelessness seriously, especially if the person feels trapped, cannot imagine staying safe, or is withdrawing from support.<sup><a href="#ref-988-faq">4</a></sup></li>
+        <li>Use emergency services if there is immediate danger, severe agitation, psychosis, intoxication, or inability to care for basic needs. In the United States, call or text 988 for crisis support and call 911 for immediate danger. Use emergency services in your region if you are outside the U.S.<sup><a href="#ref-988-help">3</a></sup></li>
+      </ul>
+    </section>
+  `;
+}
+
+function renderReferences(diagnosis) {
+  const references = gatherDiagnosisReferences(diagnosis);
+
+  return `
+    <section class="profile-section">
+      <h3>References</h3>
+      <ul class="reference-list">
+        ${references
+          .map(
+            (reference) => `
+              <li id="${escapeHtml(reference.id)}">
+                <a href="${reference.href}" target="_blank" rel="noreferrer">${escapeHtml(reference.label)}</a>
+              </li>
+            `
+          )
+          .join("")}
+      </ul>
+    </section>
+  `;
+}
+
 function renderProfileMarkup(diagnosis, { standalone }) {
   return `
     <article class="profile ${standalone ? "profile--standalone" : "profile--embedded"}">
@@ -310,11 +460,15 @@ function renderProfileMarkup(diagnosis, { standalone }) {
       ${renderSummaryBullets(diagnosis)}
       ${renderScales(diagnosis.scales)}
       ${renderMedications(diagnosis)}
+      ${renderSupportLinks(diagnosis)}
+      ${renderAdditionalSeoSections(diagnosis)}
       <section class="ad-slot ad-slot--inline" aria-label="Advertisement">
         <span class="ad-slot__label">Advertisement</span>
         <div class="ad-slot__box">Google Ads Inline Space</div>
       </section>
       ${renderArticles(diagnosis)}
+      ${renderWhenToSeekHelp()}
+      ${renderReferences(diagnosis)}
     </article>
   `;
 }

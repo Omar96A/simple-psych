@@ -7,6 +7,7 @@ import {
   drugbankUrl,
   getReferenceArticles,
 } from "../public/data/profileResources.js";
+import { blogPosts } from "../public/data/blogPosts.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -152,6 +153,170 @@ const informationalPages = [
   },
 ];
 
+const HELP_REFERENCES = [
+  {
+    id: "ref-988-help",
+    href: "https://988lifeline.org/get-help/",
+    label: "988 Lifeline Get Help page (updated date not listed by source; accessed April 7, 2026)",
+  },
+  {
+    id: "ref-988-faq",
+    href: "https://988lifeline.org/current-events/the-lifeline-and-988/",
+    label: "988 Lifeline overview of 988 and crisis support (updated date not listed by source; accessed April 7, 2026)",
+  },
+];
+
+const ADHD_EXTRA_REFERENCES = [
+  {
+    id: "ref-adhd-adults",
+    href: "https://www.psychiatry.org/patients-families/adhd/adhd-in-adults",
+    label:
+      "American Psychiatric Association, ADHD in Adults (physician review listed; updated date not listed by source; accessed April 7, 2026)",
+  },
+  {
+    id: "ref-adhd-anxiety",
+    href: "https://pmc.ncbi.nlm.nih.gov/articles/PMC11409565/",
+    label:
+      "Are We Measuring ADHD or Anxiety? Examining the Factor Structure and Discriminant Validity of the Adult ADHD Self-Report Scale in an Adult Anxiety Disorder Population (published January 30, 2024; PMC article accessed April 7, 2026)",
+  },
+];
+
+function supportPagePath(diagnosis, slug) {
+  return `/diagnosis/${diagnosis.id}/${slug}/`;
+}
+
+function getDiagnosisSupportPages(diagnosis) {
+  const pages = [
+    {
+      slug: "symptoms-and-signs",
+      title: `${diagnosis.name} Symptoms and Signs`,
+      description: `Symptoms and clinical signs of ${diagnosis.name}, with a quick path back to the main diagnosis guide on Simple Psych.`,
+      eyebrow: "Symptoms and Signs",
+      intro: `This page pulls together the symptom-level picture of ${diagnosis.name} in a way that is easier to skim than the full pillar page.`,
+      sections: [
+        {
+          heading: "Clinical overview",
+          bullets: [diagnosis.summary, ...(diagnosis.highlights ?? []).map((item) => `${item.label}: ${item.text}`)],
+        },
+      ],
+      references: [],
+    },
+    {
+      slug: "criteria-guide",
+      title: `${diagnosis.name} DSM Criteria Guide`,
+      description: `Structured DSM-style criteria guide for ${diagnosis.name}, linked to the full Simple Psych diagnosis profile.`,
+      eyebrow: "Criteria Guide",
+      intro: `Use this page when the goal is to focus quickly on the DSM-style structure for ${diagnosis.name}.`,
+      sections: diagnosis.criteria.map((criterion) => ({
+        heading: criterion.title,
+        bullets: criterion.items,
+      })),
+      references: [],
+    },
+    {
+      slug: "scales-and-assessment",
+      title: `${diagnosis.name} Scales and Assessment Tools`,
+      description: `Validated scales and assessment tools commonly used when evaluating or following ${diagnosis.name}.`,
+      eyebrow: "Scales and Assessment",
+      intro: `This page focuses on the validated scales and assessment tools most often used with ${diagnosis.name}.`,
+      sections: [
+        {
+          heading: "Common scales",
+          bullets: diagnosis.scales.map((scale) => `${scale.name}: ${scale.use}`),
+        },
+      ],
+      references: [],
+    },
+    {
+      slug: "treatments-and-medications",
+      title: `${diagnosis.name} Treatments and Medications`,
+      description: `FDA-approved treatments, off-label medications, and treatment context for ${diagnosis.name}.`,
+      eyebrow: "Treatments and Medications",
+      intro: `This page summarizes the main treatment lanes attached to ${diagnosis.name} and links back to the full diagnosis profile.`,
+      sections: [
+        ...diagnosis.medications.map((section) => ({
+          heading: section.section,
+          bullets: [section.note, ...(section.drugs.length ? [`Medications: ${section.drugs.join(", ")}`] : ["No diagnosis-specific FDA medication entry is listed in this prototype section."])],
+        })),
+        {
+          heading: "Common off-label medications",
+          bullets: diagnosis.offLabelTreatments?.length ? diagnosis.offLabelTreatments : ["No off-label medications listed in this prototype."],
+        },
+      ],
+      references: [],
+    },
+    {
+      slug: "when-to-seek-help",
+      title: `When to Seek Professional Help for ${diagnosis.name}`,
+      description: `Emergency and urgent warning signs that suggest it is time to seek professional help for ${diagnosis.name}.`,
+      eyebrow: "When to Seek Professional Help",
+      intro: `This page highlights the kinds of urgent warning signs that should move the conversation from routine follow-up to professional assessment, crisis support, or emergency care.`,
+      sections: [
+        {
+          heading: "Seek urgent help now if any of these are present",
+          bullets: [
+            "Thoughts of suicide, self-harm, or feeling unable to stay safe.",
+            "Thoughts of harming someone else, escalating violent urges, or loss of behavioral control.",
+            "Hopelessness so severe that the person feels there is no point in continuing or no way to stay safe.",
+            "Severe agitation, psychosis, intoxication, withdrawal, delirium, or inability to care for basic needs.",
+            "If there is immediate danger, call 911, contact 988 in the United States, or use emergency services in your region.",
+          ],
+        },
+      ],
+      references: HELP_REFERENCES,
+    },
+  ];
+
+  if (diagnosis.id === "adhd") {
+    pages.splice(
+      1,
+      0,
+      {
+        slug: "adhd-symptoms-in-adults",
+        title: "ADHD Symptoms in Adults",
+        description:
+          "Common ways ADHD shows up in adults, including restlessness, disorganization, impulsivity, and attention problems.",
+        eyebrow: "ADHD in Adults",
+        intro: "This support page focuses on the adult presentation of ADHD and points back to the full ADHD pillar page.",
+        sections: [
+          {
+            heading: "What adult ADHD can look like",
+            bullets: [
+              "Adult ADHD often shows up less as visible childhood-style hyperactivity and more as restlessness, difficulty organizing life, inconsistent follow-through, and trouble sustaining attention on tasks that are not especially interesting.",
+              "Adults may describe impulsive decision-making, emotional reactivity, procrastination, chronic lateness, forgetfulness, and trouble managing long or detail-heavy tasks.",
+              "A good evaluation usually includes current symptoms, childhood history, developmental and social history, impairment across settings, and screening for other psychiatric conditions that can mimic or overlap with ADHD.",
+            ],
+            sourceIds: ["ref-adhd-adults"],
+          },
+        ],
+        references: ADHD_EXTRA_REFERENCES.filter((ref) => ref.id === "ref-adhd-adults"),
+      },
+      {
+        slug: "adhd-vs-anxiety",
+        title: "ADHD vs Anxiety",
+        description:
+          "How ADHD and anxiety overlap, and why careful assessment matters when the symptoms look similar.",
+        eyebrow: "ADHD vs Anxiety",
+        intro: "This support page focuses on a common diagnostic question: when attention problems are really ADHD, when they are anxiety, and when both are present.",
+        sections: [
+          {
+            heading: "Where the overlap can be confusing",
+            bullets: [
+              "ADHD and anxiety can overlap around concentration problems, restlessness, sleep disruption, irritability, and a sense of mental overload, which is one reason ADHD is often missed in anxious adults.",
+              "In anxious adult populations, some hyperactivity-type items such as difficulty relaxing and feeling driven by a motor may reflect anxiety more than ADHD when taken in isolation.",
+              "The most useful clinical move is to look past one overlapping symptom and ask about developmental timing, lifelong pattern, setting-specific impairment, and whether the attentional symptoms persist even when anxiety is lower.",
+            ],
+            sourceIds: ["ref-adhd-anxiety"],
+          },
+        ],
+        references: ADHD_EXTRA_REFERENCES.filter((ref) => ref.id === "ref-adhd-anxiety"),
+      }
+    );
+  }
+
+  return pages;
+}
+
 fs.rmSync(distDir, { recursive: true, force: true });
 fs.mkdirSync(distDir, { recursive: true });
 fs.cpSync(publicDir, distDir, { recursive: true });
@@ -244,6 +409,16 @@ function renderTreatments(diagnosis) {
                       </ul>`
                     : `<p class="empty-copy">No diagnosis-specific FDA medication entry is listed in this prototype section.</p>`
                 }
+                <div class="side-effect-note">
+                  <h5>Common treatment side effects</h5>
+                  ${
+                    section.sideEffects?.length
+                      ? `<ul class="profile-list">
+                          ${section.sideEffects.map((effect) => `<li>${escapeHtml(effect)}</li>`).join("")}
+                        </ul>`
+                      : `<p class="empty-copy">Review the linked DrugBank pages for adverse effects. DrugBank side-effect summaries are not fully accessible to this build pipeline, so this section is only filled when a verified list is available.</p>`
+                  }
+                </div>
               </article>
             `
           )
@@ -304,10 +479,111 @@ function renderArticles(diagnosis) {
   `;
 }
 
+function renderReferences(references) {
+  if (!references.length) {
+    return "";
+  }
+
+  return `
+    <section class="profile-section">
+      <h3>References</h3>
+      <ul class="reference-list">
+        ${references
+          .map(
+            (reference) => `
+              <li id="${escapeHtml(reference.id)}">
+                <a href="${reference.href}" target="_blank" rel="noreferrer">${escapeHtml(reference.label)}</a>
+              </li>
+            `
+          )
+          .join("")}
+      </ul>
+    </section>
+  `;
+}
+
+function renderSupportLinks(diagnosis) {
+  const supportPages = getDiagnosisSupportPages(diagnosis);
+
+  return `
+    <section class="profile-section">
+      <h3>Related Guides</h3>
+      <ul class="support-link-list">
+        ${supportPages
+          .map(
+            (page) => `
+              <li>
+                <a href="${supportPagePath(diagnosis, page.slug)}">${escapeHtml(page.title)}</a>
+              </li>
+            `
+          )
+          .join("")}
+      </ul>
+    </section>
+  `;
+}
+
+function renderAdditionalSeoSections(diagnosis) {
+  if (diagnosis.id !== "adhd") {
+    return "";
+  }
+
+  return `
+    <section class="profile-section">
+      <h3>6. ADHD symptoms in adults</h3>
+      <ul class="profile-list">
+        <li>Adult ADHD often looks less like obvious childhood hyperactivity and more like restlessness, difficulty organizing life, inconsistent follow-through, and trouble sustaining attention on tasks that are not especially interesting.<sup><a href="#ref-adhd-adults">1</a></sup></li>
+        <li>Adults may describe impulsive decision-making, emotional reactivity, procrastination, chronic lateness, forgetfulness, and trouble managing long or detail-heavy tasks.<sup><a href="#ref-adhd-adults">1</a></sup></li>
+        <li>A good evaluation usually includes current symptoms, childhood history, developmental and social history, impairment across settings, and screening for other psychiatric conditions that can mimic or overlap with ADHD.<sup><a href="#ref-adhd-adults">1</a></sup></li>
+      </ul>
+    </section>
+    <section class="profile-section">
+      <h3>7. ADHD vs anxiety</h3>
+      <ul class="profile-list">
+        <li>ADHD and anxiety can overlap around concentration problems, restlessness, sleep disruption, irritability, and a sense of mental overload, which is one reason ADHD is often missed in anxious adults.<sup><a href="#ref-adhd-anxiety">2</a></sup></li>
+        <li>In anxious adult populations, some hyperactivity-type items such as difficulty relaxing and feeling driven by a motor may reflect anxiety more than ADHD when taken in isolation.<sup><a href="#ref-adhd-anxiety">2</a></sup></li>
+        <li>The most useful clinical move is to look past one overlapping symptom and ask about developmental timing, lifelong pattern, setting-specific impairment, and whether the attentional symptoms persist even when anxiety is lower.<sup><a href="#ref-adhd-anxiety">2</a></sup></li>
+      </ul>
+    </section>
+  `;
+}
+
+function renderWhenToSeekHelp() {
+  return `
+    <section class="profile-section">
+      <h3>When to seek professional help</h3>
+      <ul class="profile-list">
+        <li>Seek urgent help if there are thoughts of suicide, self-harm, or feeling unable to stay safe.<sup><a href="#ref-988-help">3</a></sup></li>
+        <li>Seek urgent help if there are thoughts of harming someone else, escalating violent urges, or loss of behavioral control.<sup><a href="#ref-988-help">3</a></sup></li>
+        <li>Take hopelessness seriously, especially if the person feels trapped, cannot imagine staying safe, or is withdrawing from support.<sup><a href="#ref-988-faq">4</a></sup></li>
+        <li>Use emergency services if there is immediate danger, severe agitation, psychosis, intoxication, or inability to care for basic needs. In the United States, call or text 988 for crisis support and call 911 for immediate danger. Use emergency services in your region if you are outside the U.S.<sup><a href="#ref-988-help">3</a></sup></li>
+      </ul>
+    </section>
+  `;
+}
+
+function gatherDiagnosisReferences(diagnosis) {
+  const references = [...HELP_REFERENCES];
+
+  if (diagnosis.id === "adhd") {
+    references.push(...ADHD_EXTRA_REFERENCES);
+  }
+
+  const seen = new Set();
+  return references.filter((reference) => {
+    if (seen.has(reference.id)) {
+      return false;
+    }
+    seen.add(reference.id);
+    return true;
+  });
+}
+
 function renderSiteFooter() {
   return `
     <footer class="site-footer">
       <nav class="site-footer__links" aria-label="Footer">
+        <a href="/blog/">Blog</a>
         <a href="/about/">About</a>
         <a href="/medical-disclaimer/">Medical Disclaimer</a>
         <a href="/editorial-policy/">Editorial Policy</a>
@@ -497,11 +773,15 @@ function renderDiagnosisPage(diagnosis) {
 
               ${renderScales(diagnosis.scales)}
               ${renderTreatments(diagnosis)}
+              ${renderSupportLinks(diagnosis)}
+              ${renderAdditionalSeoSections(diagnosis)}
               <section class="ad-slot ad-slot--inline" aria-label="Advertisement">
                 <span class="ad-slot__label">Advertisement</span>
                 <div class="ad-slot__box">Google Ads Inline Space</div>
               </section>
               ${renderArticles(diagnosis)}
+              ${renderWhenToSeekHelp()}
+              ${renderReferences(gatherDiagnosisReferences(diagnosis))}
             </article>
           </div>
         </section>
@@ -592,10 +872,237 @@ function renderInformationalPage(page) {
   );
 }
 
+function renderSupportPage(diagnosis, page) {
+  const pageDir = path.join(distDir, "diagnosis", diagnosis.id, page.slug);
+  fs.mkdirSync(pageDir, { recursive: true });
+
+  const body = `
+    <main class="app-shell">
+      <section class="hero hero--centered">
+        <div class="hero__copy">
+          <h1><a class="brand-link" href="/">Simple Psych</a></h1>
+        </div>
+      </section>
+      <section class="workspace workspace--centered workspace--single">
+        <section class="panel detail-panel detail-panel--centered">
+          <article class="profile profile--standalone profile--info">
+            <header class="profile-header">
+              <a class="back-link" href="/diagnosis/${diagnosis.id}/">← Back to ${escapeHtml(diagnosis.name)}</a>
+              <p class="profile-category">${escapeHtml(page.eyebrow)}</p>
+              <h1>${escapeHtml(page.title)}</h1>
+              <p class="lede lede--narrow">${escapeHtml(page.intro)}</p>
+            </header>
+            <section class="profile-section">
+              <h3>Main diagnosis page</h3>
+              <p><a class="support-pillar-link" href="/diagnosis/${diagnosis.id}/">Return to the full ${escapeHtml(diagnosis.name)} pillar page.</a></p>
+            </section>
+            ${page.sections
+              .map(
+                (section) => `
+                  <section class="profile-section">
+                    <h3>${escapeHtml(section.heading)}</h3>
+                    <ul class="profile-list">
+                      ${section.bullets
+                        .map((bullet) => `<li>${escapeHtml(bullet)}</li>`)
+                        .join("")}
+                    </ul>
+                  </section>
+                `
+              )
+              .join("")}
+            <section class="profile-section">
+              <h3>Related Guides</h3>
+              <ul class="support-link-list">
+                ${getDiagnosisSupportPages(diagnosis)
+                  .filter((supportPage) => supportPage.slug !== page.slug)
+                  .map(
+                    (supportPage) => `
+                      <li>
+                        <a href="${supportPagePath(diagnosis, supportPage.slug)}">${escapeHtml(supportPage.title)}</a>
+                      </li>
+                    `
+                  )
+                  .join("")}
+              </ul>
+            </section>
+            ${renderReferences(page.references)}
+          </article>
+        </section>
+      </section>
+      ${renderSiteFooter()}
+    </main>
+  `;
+
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "MedicalWebPage",
+    name: page.title,
+    url: `${siteUrl}${supportPagePath(diagnosis, page.slug)}`,
+    about: {
+      "@type": "MedicalCondition",
+      name: diagnosis.name,
+    },
+    description: page.description,
+  };
+
+  fs.writeFileSync(
+    path.join(pageDir, "index.html"),
+    pageShell({
+      title: `${page.title} | Simple Psych`,
+      description: page.description,
+      canonicalPath: supportPagePath(diagnosis, page.slug),
+      body,
+      schema,
+    })
+  );
+}
+
+function renderBlogIndex() {
+  const posts = [...blogPosts].sort((left, right) => right.date.localeCompare(left.date));
+
+  const body = `
+    <main class="app-shell">
+      <section class="hero hero--centered">
+        <div class="hero__copy">
+          <h1><a class="brand-link" href="/">Simple Psych</a></h1>
+          <p class="lede">An indexable blog for clinically oriented explainers, comparisons, and search-driven psychiatry topics.</p>
+        </div>
+      </section>
+      <section class="workspace workspace--centered workspace--single">
+        <section class="panel detail-panel detail-panel--centered">
+          <article class="profile profile--standalone profile--info">
+            <header class="profile-header">
+              <p class="profile-category">Blog</p>
+              <h1>Simple Psych Blog</h1>
+              <p class="lede lede--narrow">New posts can be published by adding another entry to <code>public/data/blogPosts.js</code> and redeploying.</p>
+            </header>
+            <div class="blog-list">
+              ${posts
+                .map((post) => {
+                  const relatedDiagnosis = diagnoses.find((diagnosis) => diagnosis.id === post.relatedDiagnosisId);
+                  return `
+                    <article class="mini-card blog-card">
+                      <p class="blog-card__meta">${escapeHtml(post.date)}</p>
+                      <h3><a href="/blog/${post.slug}/">${escapeHtml(post.title)}</a></h3>
+                      <p>${escapeHtml(post.excerpt)}</p>
+                      ${
+                        relatedDiagnosis
+                          ? `<p><a class="support-pillar-link" href="/diagnosis/${relatedDiagnosis.id}/">Related diagnosis: ${escapeHtml(relatedDiagnosis.name)}</a></p>`
+                          : ""
+                      }
+                    </article>
+                  `;
+                })
+                .join("")}
+            </div>
+          </article>
+        </section>
+      </section>
+      ${renderSiteFooter()}
+    </main>
+  `;
+
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "Blog",
+    name: "Simple Psych Blog",
+    url: `${siteUrl}/blog/`,
+    description: "Indexable blog posts related to psychiatry diagnoses, symptoms, treatment questions, and search-driven clinical topics.",
+  };
+
+  const blogDir = path.join(distDir, "blog");
+  fs.mkdirSync(blogDir, { recursive: true });
+  fs.writeFileSync(
+    path.join(blogDir, "index.html"),
+    pageShell({
+      title: "Simple Psych Blog",
+      description: "Indexable blog posts related to psychiatry diagnoses, symptoms, treatment questions, and search-driven clinical topics.",
+      canonicalPath: "/blog/",
+      body,
+      schema,
+    })
+  );
+}
+
+function renderBlogPost(post) {
+  const relatedDiagnosis = diagnoses.find((diagnosis) => diagnosis.id === post.relatedDiagnosisId);
+  const postDir = path.join(distDir, "blog", post.slug);
+  fs.mkdirSync(postDir, { recursive: true });
+
+  const body = `
+    <main class="app-shell">
+      <section class="hero hero--centered">
+        <div class="hero__copy">
+          <h1><a class="brand-link" href="/">Simple Psych</a></h1>
+        </div>
+      </section>
+      <section class="workspace workspace--centered workspace--single">
+        <section class="panel detail-panel detail-panel--centered">
+          <article class="profile profile--standalone profile--info">
+            <header class="profile-header">
+              <a class="back-link" href="/blog/">← Back to blog</a>
+              <p class="profile-category">Blog</p>
+              <h1>${escapeHtml(post.title)}</h1>
+              <p class="blog-card__meta">${escapeHtml(post.date)}</p>
+              <p class="lede lede--narrow">${escapeHtml(post.excerpt)}</p>
+            </header>
+            ${post.paragraphs
+              .map(
+                (paragraph) => `
+                  <section class="profile-section info-section">
+                    <p>${escapeHtml(paragraph)}</p>
+                  </section>
+                `
+              )
+              .join("")}
+            ${
+              relatedDiagnosis
+                ? `
+                  <section class="profile-section">
+                    <h3>Related diagnosis</h3>
+                    <p><a class="support-pillar-link" href="/diagnosis/${relatedDiagnosis.id}/">Go to the ${escapeHtml(relatedDiagnosis.name)} pillar page</a></p>
+                  </section>
+                `
+                : ""
+            }
+          </article>
+        </section>
+      </section>
+      ${renderSiteFooter()}
+    </main>
+  `;
+
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: post.title,
+    datePublished: post.date,
+    dateModified: post.date,
+    url: `${siteUrl}/blog/${post.slug}/`,
+    description: post.excerpt,
+  };
+
+  fs.writeFileSync(
+    path.join(postDir, "index.html"),
+    pageShell({
+      title: `${post.title} | Simple Psych Blog`,
+      description: post.excerpt,
+      canonicalPath: `/blog/${post.slug}/`,
+      body,
+      schema,
+    })
+  );
+}
+
 function writeRobotsAndSitemap() {
   const urls = [
     "/",
     ...diagnoses.map((diagnosis) => `/diagnosis/${diagnosis.id}/`),
+    ...diagnoses.flatMap((diagnosis) =>
+      getDiagnosisSupportPages(diagnosis).map((page) => supportPagePath(diagnosis, page.slug))
+    ),
+    "/blog/",
+    ...blogPosts.map((post) => `/blog/${post.slug}/`),
     ...informationalPages.map((page) => `/${page.slug}/`),
   ];
 
@@ -615,6 +1122,13 @@ ${urls.map((url) => `  <url><loc>${siteUrl}${url}</loc></url>`).join("\n")}
 renderHomePage();
 for (const diagnosis of diagnoses) {
   renderDiagnosisPage(diagnosis);
+  for (const page of getDiagnosisSupportPages(diagnosis)) {
+    renderSupportPage(diagnosis, page);
+  }
+}
+renderBlogIndex();
+for (const post of blogPosts) {
+  renderBlogPost(post);
 }
 for (const page of informationalPages) {
   renderInformationalPage(page);
