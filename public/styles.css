@@ -115,6 +115,9 @@ body[data-page="detail"] .workspace {
 .search-panel {
   position: sticky;
   top: 18px;
+  display: flex;
+  flex-direction: column;
+  max-height: calc(100vh - 36px);
 }
 
 body[data-page="detail"] .search-panel {
@@ -156,6 +159,12 @@ input[type="search"]:focus {
 .search-meta {
   margin-bottom: 14px;
   font-size: 0.94rem;
+}
+
+.diagnosis-list {
+  min-height: 0;
+  overflow-y: auto;
+  padding-right: 6px;
 }
 
 .directory-list {
@@ -558,6 +567,13 @@ input[type="search"]:focus {
 
   .search-panel {
     position: static;
+    display: block;
+    max-height: none;
+  }
+
+  .diagnosis-list {
+    overflow: visible;
+    padding-right: 0;
   }
 }
 
