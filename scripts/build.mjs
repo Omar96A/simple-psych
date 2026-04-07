@@ -799,8 +799,9 @@ function renderHomePage() {
               <p class="home-note__eyebrow">Diagnosis Profiles</p>
               <h2>Select a diagnosis.</h2>
               <p>
-                Each profile includes explicit DSM-style criteria, a five-bullet DSM summary,
-                validated scales, FDA-approved treatment sections, and key management literature.
+                Open any diagnosis to get a clean, clinician-friendly summary with criteria,
+                context, assessment tools, treatment options, and practical reference points you
+                can scan quickly.
               </p>
             </div>
           </div>
