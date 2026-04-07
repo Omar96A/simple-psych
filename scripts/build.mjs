@@ -759,9 +759,9 @@ function renderHomePage() {
         <div class="hero__copy">
           <h1><a class="brand-link" href="/">Simple Psych</a></h1>
           <p class="lede">
-            A diagnosis directory for psychiatry with profile pages that surface explicit DSM
-            criteria, concise DSM-context summaries, validated scales, treatment sections, and
-            linked management literature.
+            Clear, structured psychiatry references built for faster clinical review, with DSM-style
+            criteria, practical context, validated scales, treatment guidance, and key literature
+            in one place.
           </p>
         </div>
       </section>
