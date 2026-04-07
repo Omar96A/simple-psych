@@ -16,6 +16,142 @@ const distDir = path.join(rootDir, "dist");
 const siteUrl = (process.env.SITE_URL || "https://simplepsych.net").replace(/\/$/, "");
 const analyticsId = process.env.GA_MEASUREMENT_ID || "G-5QYX920HMP";
 
+const informationalPages = [
+  {
+    slug: "about",
+    title: "About Simple Psych",
+    description:
+      "About Simple Psych, a psychiatry reference built to help clinicians quickly review criteria, context, scales, treatments, and supporting literature.",
+    schemaType: "AboutPage",
+    introEyebrow: "About",
+    introTitle: "Built for fast, clinically oriented review.",
+    introText:
+      "Simple Psych is designed as a clean psychiatry reference that helps clinicians and trainees move quickly from a diagnosis name to the most useful decision-support information on the page.",
+    sections: [
+      {
+        heading: "What the site is for",
+        paragraphs: [
+          "The goal is to make common psychiatric diagnoses easier to review in one place. Each diagnosis page is structured around criteria, concise DSM-context notes, validated scales, treatment sections, and management literature.",
+          "The site is intended to be simple, navigable, and fast enough to use during study, chart review, supervision, and teaching.",
+        ],
+      },
+      {
+        heading: "Who it is for",
+        paragraphs: [
+          "Simple Psych is primarily built for psychiatrists, psychiatry trainees, therapists, primary care clinicians, and other healthcare professionals who want a concise reference layer around common psychiatric diagnoses.",
+          "It may also be useful for medical students and other learners, but it is not designed to replace formal clinical training or licensed source materials.",
+        ],
+      },
+      {
+        heading: "How the content is organized",
+        paragraphs: [
+          "Diagnosis pages use DSM-style criterion structure, short contextual summaries, rating scales, treatment groupings, and literature links so the user can scan the most relevant information quickly.",
+          "Medication and article sections are organized for navigation and review convenience, not as individualized treatment advice.",
+        ],
+      },
+    ],
+  },
+  {
+    slug: "medical-disclaimer",
+    title: "Medical Disclaimer | Simple Psych",
+    description:
+      "Medical disclaimer for Simple Psych, including limitations of use, clinical judgment, emergency guidance, and source-material expectations.",
+    schemaType: "WebPage",
+    introEyebrow: "Medical Disclaimer",
+    introTitle: "Reference support, not medical advice.",
+    introText:
+      "Simple Psych is an informational reference tool. It does not provide medical advice, diagnosis, treatment recommendations for a specific person, or emergency guidance tailored to an individual case.",
+    sections: [
+      {
+        heading: "Not a substitute for clinical judgment",
+        paragraphs: [
+          "The information on this website should not replace clinician judgment, direct patient evaluation, supervision, or consultation with appropriate specialists.",
+          "Diagnosis and treatment decisions should always be based on the full clinical picture, comorbidities, patient preferences, risk assessment, and current authoritative guidance.",
+        ],
+      },
+      {
+        heading: "Diagnostic and treatment limitations",
+        paragraphs: [
+          "DSM-style criteria on this site are paraphrased for educational and navigational use. They should be cross-checked against licensed source materials and institutional practice standards when precision is required.",
+          "Medication sections summarize FDA-approved and commonly used off-label options at a high level. They are not individualized prescribing advice and do not replace review of labeling, contraindications, interactions, monitoring needs, or local standards of care.",
+        ],
+      },
+      {
+        heading: "Emergency and high-risk situations",
+        paragraphs: [
+          "Do not rely on this website for emergency, crisis, or urgent psychiatric decision-making. If there is concern for suicidality, homicidality, severe withdrawal, catatonia, delirium, acute psychosis, or another emergency condition, use emergency services and appropriate local protocols immediately.",
+        ],
+      },
+    ],
+  },
+  {
+    slug: "editorial-policy",
+    title: "Editorial Policy | Simple Psych",
+    description:
+      "Editorial policy for Simple Psych, including content approach, source expectations, review philosophy, and update standards.",
+    schemaType: "WebPage",
+    introEyebrow: "Editorial Policy",
+    introTitle: "Clarity, structure, and source-aware summaries.",
+    introText:
+      "Simple Psych is built around structured, scan-friendly summaries of psychiatric diagnoses, scales, treatments, and management literature with an emphasis on clear organization over exhaustive textbook reproduction.",
+    sections: [
+      {
+        heading: "Content approach",
+        paragraphs: [
+          "Content is written to help users rapidly locate the key clinical elements of a diagnosis page. That includes DSM-style criterion organization, short contextual summaries, commonly used scales, treatment groupings, and selected literature links.",
+          "Where copyrighted source material applies, content is paraphrased rather than reproduced verbatim.",
+        ],
+      },
+      {
+        heading: "Sources and evidence expectations",
+        paragraphs: [
+          "Diagnosis structure is informed by DSM-style diagnostic organization, while treatment and literature sections are meant to orient the user toward further review of current evidence and primary sources.",
+          "Medication information should be confirmed against current FDA labeling, guidelines, and institution-specific practice expectations before clinical use.",
+        ],
+      },
+      {
+        heading: "Updates and revisions",
+        paragraphs: [
+          "Content may be revised as pages expand, citations improve, and additional diagnoses, medications, and scales are added. Users should expect iterative improvement rather than final or exhaustive coverage.",
+          "If a page seems incomplete or unclear, it should be treated as a prompt for further source verification rather than a definitive endpoint.",
+        ],
+      },
+    ],
+  },
+  {
+    slug: "contact",
+    title: "Contact | Simple Psych",
+    description:
+      "Contact and feedback page for Simple Psych, including how to report corrections, request additions, and share collaboration ideas.",
+    schemaType: "ContactPage",
+    introEyebrow: "Contact",
+    introTitle: "Feedback helps the site get better.",
+    introText:
+      "Simple Psych is still growing. Feedback about missing diagnoses, criteria clarity, treatment sections, broken links, and citation quality is useful and welcome.",
+    sections: [
+      {
+        heading: "What to send",
+        paragraphs: [
+          "Helpful feedback includes suspected factual errors, broken page behavior, requests for additional diagnoses, suggestions for scales or treatments to include, and recommendations for higher-quality management literature.",
+        ],
+      },
+      {
+        heading: "How to reach out",
+        paragraphs: [
+          "For now, the simplest contact path is a direct email from the site owner or a linked professional profile. If a public contact address is added later, it should live on this page.",
+          "If you want, this page can be updated next with a dedicated email address, a contact form, or links to professional profiles.",
+        ],
+      },
+      {
+        heading: "Corrections policy",
+        paragraphs: [
+          "When reporting a correction, include the page URL, the specific issue, and if possible the source or rationale for the change. That makes updates much faster and more reliable.",
+        ],
+      },
+    ],
+  },
+];
+
 fs.rmSync(distDir, { recursive: true, force: true });
 fs.mkdirSync(distDir, { recursive: true });
 fs.cpSync(publicDir, distDir, { recursive: true });
@@ -168,6 +304,22 @@ function renderArticles(diagnosis) {
   `;
 }
 
+function renderSiteFooter() {
+  return `
+    <footer class="site-footer">
+      <nav class="site-footer__links" aria-label="Footer">
+        <a href="/about/">About</a>
+        <a href="/medical-disclaimer/">Medical Disclaimer</a>
+        <a href="/editorial-policy/">Editorial Policy</a>
+        <a href="/contact/">Contact</a>
+      </nav>
+      <p class="site-footer__note">
+        Simple Psych is a clinical reference prototype for educational use and should be cross-checked against licensed source material and current guidance.
+      </p>
+    </footer>
+  `;
+}
+
 function pageShell({ title, description, canonicalPath, body, schema }) {
   const canonicalUrl = `${siteUrl}${canonicalPath}`;
   const analyticsSnippet = analyticsId
@@ -271,6 +423,7 @@ function renderHomePage() {
           </div>
         </section>
       </section>
+      ${renderSiteFooter()}
     </main>
     <script type="module" src="/app.js"></script>
   `;
@@ -353,6 +506,7 @@ function renderDiagnosisPage(diagnosis) {
           </div>
         </section>
       </section>
+      ${renderSiteFooter()}
     </main>
   `;
 
@@ -381,8 +535,69 @@ function renderDiagnosisPage(diagnosis) {
   );
 }
 
+function renderInformationalPage(page) {
+  const pageDir = path.join(distDir, page.slug);
+  fs.mkdirSync(pageDir, { recursive: true });
+
+  const body = `
+    <main class="app-shell">
+      <section class="hero hero--centered">
+        <div class="hero__copy">
+          <h1><a class="brand-link" href="/">Simple Psych</a></h1>
+        </div>
+      </section>
+      <section class="workspace workspace--centered workspace--single">
+        <section class="panel detail-panel detail-panel--centered">
+          <article class="profile profile--standalone profile--info">
+            <header class="profile-header">
+              <a class="back-link" href="/">← Back to all diagnoses</a>
+              <p class="profile-category">${escapeHtml(page.introEyebrow)}</p>
+              <h1>${escapeHtml(page.introTitle)}</h1>
+              <p class="lede lede--narrow">${escapeHtml(page.introText)}</p>
+            </header>
+            ${page.sections
+              .map(
+                (section) => `
+                  <section class="profile-section info-section">
+                    <h3>${escapeHtml(section.heading)}</h3>
+                    ${section.paragraphs.map((paragraph) => `<p>${escapeHtml(paragraph)}</p>`).join("")}
+                  </section>
+                `
+              )
+              .join("")}
+          </article>
+        </section>
+      </section>
+      ${renderSiteFooter()}
+    </main>
+  `;
+
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": page.schemaType,
+    name: page.title,
+    url: `${siteUrl}/${page.slug}/`,
+    description: page.description,
+  };
+
+  fs.writeFileSync(
+    path.join(pageDir, "index.html"),
+    pageShell({
+      title: page.title,
+      description: page.description,
+      canonicalPath: `/${page.slug}/`,
+      body,
+      schema,
+    })
+  );
+}
+
 function writeRobotsAndSitemap() {
-  const urls = ["/", ...diagnoses.map((diagnosis) => `/diagnosis/${diagnosis.id}/`)];
+  const urls = [
+    "/",
+    ...diagnoses.map((diagnosis) => `/diagnosis/${diagnosis.id}/`),
+    ...informationalPages.map((page) => `/${page.slug}/`),
+  ];
 
   const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
@@ -400,6 +615,9 @@ ${urls.map((url) => `  <url><loc>${siteUrl}${url}</loc></url>`).join("\n")}
 renderHomePage();
 for (const diagnosis of diagnoses) {
   renderDiagnosisPage(diagnosis);
+}
+for (const page of informationalPages) {
+  renderInformationalPage(page);
 }
 writeRobotsAndSitemap();
 
