@@ -274,3 +274,16 @@ export function getReferenceArticles(diagnosisId, diagnosisName) {
 export function drugbankUrl(drugName) {
   return `https://go.drugbank.com/unearth/q?query=${encodeURIComponent(drugName)}&searcher=drugs`;
 }
+
+export function drugsSideEffectsUrl(drugName) {
+  const normalized = drugName
+    .toLowerCase()
+    .replaceAll("xr", "xr")
+    .replaceAll("er", "er")
+    .replaceAll("/", "-")
+    .replaceAll("+", "-plus-")
+    .replaceAll(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+
+  return `https://www.drugs.com/sfx/${normalized}-side-effects.html`;
+}

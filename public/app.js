@@ -2,6 +2,7 @@ import { diagnoses } from "./data/diagnoses.js";
 import {
   ICD_CODES,
   drugbankUrl,
+  drugsSideEffectsUrl,
   getReferenceArticles as getSharedReferenceArticles,
 } from "./data/profileResources.js";
 
@@ -297,11 +298,20 @@ function renderMedications(diagnosis) {
                 }
                 <div class="side-effect-note">
                   <h5>Common treatment side effects</h5>
-                  ${section.sideEffects?.length
-                    ? `<ul class="profile-list">
-                        ${section.sideEffects.map((effect) => `<li>${escapeHtml(effect)}</li>`).join("")}
+                  <p class="empty-copy">Check <a href="https://www.drugs.com/sfx/" target="_blank" rel="noreferrer">drugs.com/sfx</a> for common side effects. Direct side-effect links for the medications in this section are below when available.</p>
+                  ${section.drugs.length
+                    ? `<ul class="support-link-list">
+                        ${section.drugs
+                          .map(
+                            (drug) => `
+                              <li>
+                                <a href="${drugsSideEffectsUrl(drug)}" target="_blank" rel="noreferrer">${escapeHtml(drug)} side effects</a>
+                              </li>
+                            `
+                          )
+                          .join("")}
                       </ul>`
-                    : `<p class="empty-copy">Review the linked DrugBank pages for adverse effects. DrugBank side-effect summaries are not fully accessible to this build pipeline, so this section is only filled when a verified list is available.</p>`}
+                    : ""}
                 </div>
               </article>
             `
