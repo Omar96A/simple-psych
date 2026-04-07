@@ -702,12 +702,12 @@ function renderHomePage() {
                 validated scales, FDA-approved treatment sections, and key management literature.
               </p>
             </div>
-            <section class="ad-slot ad-slot--banner" aria-label="Advertisement">
-              <span class="ad-slot__label">Advertisement</span>
-              <div class="ad-slot__box">Google Ads Banner Space</div>
-            </section>
           </div>
         </section>
+      </section>
+      <section class="ad-slot ad-slot--footer" aria-label="Advertisement">
+        <span class="ad-slot__label">Advertisement</span>
+        <div class="ad-slot__box">Google Ads Space</div>
       </section>
       ${renderSiteFooter()}
     </main>
@@ -764,11 +764,6 @@ function renderDiagnosisPage(diagnosis) {
                 <p class="profile-icd">ICD-10-CM: ${escapeHtml(codes.length ? codes.join(", ") : "Not listed")}</p>
               </header>
 
-              <section class="ad-slot ad-slot--banner" aria-label="Advertisement">
-                <span class="ad-slot__label">Advertisement</span>
-                <div class="ad-slot__box">Google Ads Banner Space</div>
-              </section>
-
               <section class="profile-section">
                 <h3 class="criteria-title">1. Criteria</h3>
                 ${renderCriteria(diagnosis.criteria)}
@@ -785,12 +780,12 @@ function renderDiagnosisPage(diagnosis) {
               ${renderTreatments(diagnosis)}
               ${renderSupportLinks(diagnosis)}
               ${renderAdditionalSeoSections(diagnosis)}
+              ${renderArticles(diagnosis)}
+              ${renderWhenToSeekHelp()}
               <section class="ad-slot ad-slot--inline" aria-label="Advertisement">
                 <span class="ad-slot__label">Advertisement</span>
                 <div class="ad-slot__box">Google Ads Inline Space</div>
               </section>
-              ${renderArticles(diagnosis)}
-              ${renderWhenToSeekHelp()}
               ${renderReferences(gatherDiagnosisReferences(diagnosis))}
             </article>
           </div>

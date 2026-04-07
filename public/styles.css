@@ -229,7 +229,7 @@ input[type="search"]:focus {
 }
 
 .ad-slot {
-  margin: 28px auto 0;
+  margin: 24px auto 0;
 }
 
 .profile-section + .ad-slot {
@@ -244,30 +244,36 @@ input[type="search"]:focus {
   display: block;
   margin-bottom: 8px;
   color: var(--copper);
-  font-size: 0.74rem;
-  font-weight: 700;
+  font-size: 0.7rem;
+  font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.08em;
+  opacity: 0.72;
 }
 
 .ad-slot__box {
   display: grid;
   place-items: center;
-  min-height: 120px;
+  min-height: 96px;
   padding: 18px;
-  border: 1px dashed rgba(50, 96, 128, 0.35);
+  border: 1px dashed rgba(50, 96, 128, 0.2);
   border-radius: 20px;
-  background: rgba(181, 210, 230, 0.1);
+  background: rgba(181, 210, 230, 0.06);
   color: var(--muted);
   text-align: center;
+  font-size: 0.95rem;
 }
 
 .ad-slot--banner .ad-slot__box {
-  min-height: 140px;
+  min-height: 112px;
 }
 
 .ad-slot--inline .ad-slot__box {
-  min-height: 120px;
+  min-height: 104px;
+}
+
+.ad-slot--footer {
+  max-width: 980px;
 }
 
 .profile {
