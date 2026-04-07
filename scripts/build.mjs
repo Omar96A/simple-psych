@@ -49,6 +49,7 @@ const informationalPages = [
         paragraphs: [
           "Diagnosis pages use DSM-style criterion structure, short contextual summaries, rating scales, treatment groupings, and literature links so the user can scan the most relevant information quickly.",
           "Medication and article sections are organized for navigation and review convenience, not as individualized treatment advice.",
+          "The site also publishes llms.txt and llms-full.txt so language models and retrieval systems have a cleaner machine-readable map of the site and its best entry points.",
         ],
       },
     ],
@@ -1121,7 +1122,7 @@ ${urls.map((url) => `  <url><loc>${siteUrl}${url}</loc></url>`).join("\n")}
   fs.writeFileSync(path.join(distDir, "sitemap.xml"), sitemap);
   fs.writeFileSync(
     path.join(distDir, "robots.txt"),
-    `User-agent: *\nAllow: /\n\nSitemap: ${siteUrl}/sitemap.xml\n`
+    `# LLM guidance files: ${siteUrl}/llms.txt and ${siteUrl}/llms-full.txt\nUser-agent: *\nAllow: /\n\nSitemap: ${siteUrl}/sitemap.xml\n`
   );
 }
 
