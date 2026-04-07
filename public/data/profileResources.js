@@ -19,6 +19,13 @@ export const ICD_CODES = {
   "binge-eating-disorder": ["F50.81"],
   "alcohol-use-disorder": ["F10.20"],
   "borderline-personality-disorder": ["F60.3"],
+  "insomnia-disorder": ["G47.00"],
+  "hypersomnolence-disorder": ["G47.10"],
+  narcolepsy: ["G47.419"],
+  "obstructive-sleep-apnea-hypopnea": ["G47.33"],
+  "circadian-rhythm-sleep-wake-disorder": ["G47.20"],
+  "nightmare-disorder": ["F51.5"],
+  "restless-legs-syndrome": ["G25.81"],
 };
 
 export const ARTICLE_REFERENCES = {

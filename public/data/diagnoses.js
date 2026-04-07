@@ -1247,4 +1247,436 @@ export const diagnoses = [
       "TMS and ketamine are being explored mainly for comorbid affective symptoms.",
     ],
   },
+  {
+    id: "insomnia-disorder",
+    name: "Insomnia Disorder",
+    category: "Sleep-Wake Disorders",
+    aliases: ["Chronic insomnia", "Insomnia"],
+    searchTerms: ["sleep onset insomnia", "sleep maintenance insomnia", "early morning awakening"],
+    summary:
+      "Insomnia disorder is the pattern of not being able to fall asleep, stay asleep, or get back to sleep in a way that actually affects daytime life. The diagnosis becomes more convincing when the sleep complaint is persistent, happens despite adequate opportunity to sleep, and starts showing up as fatigue, irritability, poor concentration, or reduced functioning.",
+    highlights: [
+      { label: "Opportunity matters", text: "A patient can only meet criteria if there is enough time and a reasonable setting for sleep. Chronic sleep deprivation from schedule alone is not the same thing." },
+      { label: "Daytime impact", text: "The complaint should not stop at the night. Daytime fatigue, mood change, cognitive problems, or functional impairment help make it a disorder rather than a preference or nuisance." },
+      { label: "Clinical frame", text: "It helps to ask whether the problem is with sleep onset, sleep maintenance, early morning awakening, or a mix of all three, because that often changes management." },
+    ],
+    criteria: [
+      {
+        title: "Criterion A",
+        items: [
+          "There is a predominant complaint of dissatisfaction with sleep quantity or quality.",
+          "The complaint takes the form of difficulty initiating sleep, difficulty maintaining sleep with frequent awakenings or trouble returning to sleep, or early-morning awakening with inability to return to sleep.",
+        ],
+      },
+      {
+        title: "Criterion B",
+        items: [
+          "The sleep disturbance causes clinically significant distress or impairment in social, occupational, educational, academic, behavioral, or other important areas of functioning.",
+        ],
+      },
+      {
+        title: "Criterion C",
+        items: [
+          "The sleep difficulty occurs at least 3 nights per week.",
+        ],
+      },
+      {
+        title: "Criterion D",
+        items: [
+          "The sleep difficulty has been present for at least 3 months.",
+        ],
+      },
+      {
+        title: "Criterion E",
+        items: [
+          "The sleep difficulty occurs despite adequate opportunity for sleep.",
+        ],
+      },
+      {
+        title: "Criterion F",
+        items: [
+          "The insomnia is not better explained by another sleep-wake disorder.",
+        ],
+      },
+      {
+        title: "Criterion G",
+        items: [
+          "The insomnia is not attributable to a substance or medication.",
+        ],
+      },
+      {
+        title: "Criterion H",
+        items: [
+          "Coexisting mental disorders and medical conditions do not adequately explain the predominant insomnia complaint.",
+        ],
+      },
+    ],
+    scales: [
+      { name: "Insomnia Severity Index", use: "Most common brief measure for insomnia severity and treatment response." },
+      { name: "Pittsburgh Sleep Quality Index", use: "Useful when you want a broader view of sleep quality and sleep-related impairment." },
+      { name: "Sleep diary", use: "Essential for mapping sleep onset, awakenings, total sleep time, and patterns over time." },
+    ],
+    medications: [
+      {
+        section: "FDA-approved medications for insomnia",
+        note:
+          "These medications have insomnia-related FDA labeling, although the exact indication may target sleep onset, sleep maintenance, or both depending on the product.",
+        drugs: ["Zolpidem", "Eszopiclone", "Zaleplon", "Suvorexant", "Lemborexant", "Ramelteon", "Doxepin", "Temazepam", "Triazolam"],
+      },
+    ],
+    offLabelTreatments: ["Trazodone", "Mirtazapine", "Gabapentin"],
+    interventionalOptions: [
+      "CBT-I remains the first-line nonpharmacologic intervention and is central to management.",
+      "TMS and other interventional psychiatry approaches are not standard treatments for insomnia disorder itself.",
+      "Ketamine and ECT are not standard insomnia interventions.",
+    ],
+  },
+  {
+    id: "hypersomnolence-disorder",
+    name: "Hypersomnolence Disorder",
+    category: "Sleep-Wake Disorders",
+    aliases: ["Hypersomnia disorder", "Hypersomnolence"],
+    searchTerms: ["excessive sleepiness", "long sleep", "sleep inertia"],
+    summary:
+      "Hypersomnolence disorder is about excessive sleepiness that persists even when the person appears to be getting enough main sleep. Patients often describe long, unrefreshing sleep, trouble getting fully awake, or repeated daytime sleep episodes that interfere with work, school, or safety.",
+    highlights: [
+      { label: "Not just tired", text: "This diagnosis is about true sleepiness rather than low energy alone, so it helps to separate sleepiness from depression, burnout, and medication side effects." },
+      { label: "Duration", text: "The problem needs to be recurrent and persistent, not just a short period of catch-up sleep after deprivation." },
+      { label: "Rule-outs", text: "Sleep deprivation, sleep apnea, circadian disruption, substance effects, and narcolepsy all need to be considered carefully before landing here." },
+    ],
+    criteria: [
+      {
+        title: "Criterion A",
+        items: [
+          "Self-reported excessive sleepiness occurs despite a main sleep period lasting at least 7 hours.",
+          "The excessive sleepiness is accompanied by recurrent periods of sleep or lapses into sleep within the same day, a main sleep episode lasting more than 9 hours that is not restorative, or difficulty being fully awake after abrupt awakening.",
+        ],
+      },
+      {
+        title: "Criterion B",
+        items: [
+          "The hypersomnolence occurs at least 3 times per week for at least 3 months.",
+        ],
+      },
+      {
+        title: "Criterion C",
+        items: [
+          "The hypersomnolence causes significant distress or impairment.",
+        ],
+      },
+      {
+        title: "Criterion D",
+        items: [
+          "The hypersomnolence is not better explained by another sleep disorder and does not occur exclusively during the course of another sleep disorder.",
+        ],
+      },
+      {
+        title: "Criterion E",
+        items: [
+          "The hypersomnolence is not attributable to a substance or medication.",
+        ],
+      },
+      {
+        title: "Criterion F",
+        items: [
+          "Coexisting mental or medical disorders do not adequately explain the predominant hypersomnolence complaint.",
+        ],
+      },
+    ],
+    scales: [
+      { name: "Epworth Sleepiness Scale", use: "Quick self-report gauge of daytime sleepiness in common situations." },
+      { name: "Sleep diary", use: "Helps clarify whether the issue is true hypersomnolence or chronic sleep restriction." },
+      { name: "Multiple Sleep Latency Test", use: "Useful in specialist workup when narcolepsy or other central hypersomnia is being considered." },
+    ],
+    medications: [
+      {
+        section: "Diagnosis-specific FDA indications",
+        note:
+          "This prototype does not list a core DSM hypersomnolence-disorder-specific FDA medication indication; treatment usually depends on the underlying sleep diagnosis and specialist evaluation.",
+        drugs: [],
+      },
+    ],
+    offLabelTreatments: ["Modafinil", "Armodafinil", "Solriamfetol"],
+    interventionalOptions: [
+      "Interventional psychiatry modalities are not standard treatments for hypersomnolence disorder.",
+      "Management is usually based on sleep medicine workup, schedule correction, and cause-specific treatment.",
+      "ECT, TMS, and ketamine are not standard therapies here.",
+    ],
+  },
+  {
+    id: "narcolepsy",
+    name: "Narcolepsy",
+    category: "Sleep-Wake Disorders",
+    aliases: ["Narcolepsy type 1", "Narcolepsy type 2"],
+    searchTerms: ["cataplexy", "sleep attacks", "hypocretin", "orexin"],
+    summary:
+      "Narcolepsy is a central disorder of sleep-wake regulation marked by chronic daytime sleepiness and, in some patients, cataplexy, REM-related hallucinations, sleep paralysis, or fragmented nighttime sleep. In practice, the story often comes out as irresistible sleep episodes and a lifetime of feeling abnormally sleepy.",
+    highlights: [
+      { label: "Core symptom", text: "Excessive daytime sleepiness is the anchor symptom. The person is often sleepy even after what sounds like adequate nighttime sleep." },
+      { label: "Cataplexy matters", text: "When present, cataplexy strongly shifts the differential and points toward narcolepsy type 1." },
+      { label: "Workup", text: "Diagnosis usually depends on sleep medicine testing, especially polysomnography plus MSLT, and sometimes CSF hypocretin data." },
+    ],
+    criteria: [
+      {
+        title: "Criterion A",
+        items: [
+          "There are recurrent periods of irrepressible need to sleep, lapsing into sleep, or napping within the same day.",
+          "These episodes occur at least 3 times per week over the past 3 months.",
+        ],
+      },
+      {
+        title: "Criterion B",
+        items: [
+          "At least one of the following is present: episodes of cataplexy, hypocretin deficiency, or REM sleep latency abnormalities on sleep testing consistent with narcolepsy.",
+        ],
+      },
+    ],
+    scales: [
+      { name: "Epworth Sleepiness Scale", use: "Common office-based measure of subjective daytime sleepiness." },
+      { name: "Multiple Sleep Latency Test", use: "Core specialist diagnostic test in narcolepsy evaluation." },
+      { name: "Maintenance of Wakefulness Test", use: "Useful in follow-up when ability to stay awake is the key clinical question." },
+    ],
+    medications: [
+      {
+        section: "FDA-approved medications for excessive daytime sleepiness in narcolepsy",
+        note:
+          "Several wake-promoting agents and alerting medications carry narcolepsy labeling, though product-specific indications and age ranges differ.",
+        drugs: ["Modafinil", "Armodafinil", "Solriamfetol", "Pitolisant"],
+      },
+      {
+        section: "FDA-approved medications for cataplexy or mixed narcolepsy symptoms",
+        note:
+          "Oxybate products are important FDA-approved options when cataplexy or severe daytime sleepiness is part of the narcolepsy picture.",
+        drugs: ["Sodium oxybate", "Low-sodium oxybate"],
+      },
+    ],
+    offLabelTreatments: ["Methylphenidate", "Amphetamine formulations", "Venlafaxine for cataplexy"],
+    interventionalOptions: [
+      "Interventional psychiatry modalities are not standard treatments for narcolepsy.",
+      "Management is usually behavioral plus medication-based within sleep medicine.",
+      "ECT, TMS, and ketamine are not standard narcolepsy treatments.",
+    ],
+  },
+  {
+    id: "obstructive-sleep-apnea-hypopnea",
+    name: "Obstructive Sleep Apnea Hypopnea",
+    category: "Sleep-Wake Disorders",
+    aliases: ["OSA", "Obstructive sleep apnea"],
+    searchTerms: ["snoring", "apnea", "daytime sleepiness", "sleep-disordered breathing"],
+    summary:
+      "Obstructive sleep apnea hypopnea is a breathing-related sleep disorder in which airflow repeatedly narrows or stops during sleep, often leading to snoring, witnessed apneas, fragmented sleep, and daytime sleepiness. Many patients do not present saying they sleep badly. They present tired, foggy, hypertensive, or told by a partner that they stop breathing.",
+    highlights: [
+      { label: "History clues", text: "Snoring, witnessed apneas, gasping, morning headaches, and excessive daytime sleepiness are often the first clues." },
+      { label: "Testing", text: "Diagnosis typically depends on sleep testing rather than interview alone." },
+      { label: "Treatment frame", text: "Primary treatment is not psychiatric. Airway-based treatment and sleep medicine management come first, with medication playing a narrower role." },
+    ],
+    criteria: [
+      {
+        title: "Criterion A",
+        items: [
+          "Either there is evidence by polysomnography of at least 5 obstructive apneas or hypopneas per hour of sleep and associated symptoms, or polysomnography shows 15 or more obstructive apneas or hypopneas per hour even without symptoms.",
+          "Associated symptoms may include nocturnal breathing disturbances, snoring, snorting, gasping, breathing pauses during sleep, daytime sleepiness, fatigue, or nonrestorative sleep.",
+        ],
+      },
+    ],
+    scales: [
+      { name: "STOP-Bang", use: "Common screening tool for obstructive sleep apnea risk." },
+      { name: "Epworth Sleepiness Scale", use: "Useful for tracking daytime sleepiness burden." },
+      { name: "Polysomnography metrics", use: "AHI and oxygen desaturation burden are central to confirmation and severity framing." },
+    ],
+    medications: [
+      {
+        section: "FDA-approved medications for residual excessive sleepiness associated with OSA",
+        note:
+          "Medication is not a replacement for airway treatment. These agents are used more narrowly for persistent excessive sleepiness in selected patients.",
+        drugs: ["Modafinil", "Armodafinil", "Solriamfetol"],
+      },
+    ],
+    offLabelTreatments: ["No routine off-label psychiatric medication pathway", "Weight-loss pharmacotherapy depending on comorbidity", "Adjunctive alerting agents in specialty care"],
+    interventionalOptions: [
+      "This is primarily a sleep medicine and airway disorder rather than an interventional psychiatry target.",
+      "Positive airway pressure, oral appliances, and procedural airway approaches are the main treatment lanes.",
+      "ECT, TMS, and ketamine are not treatments for OSA itself.",
+    ],
+  },
+  {
+    id: "circadian-rhythm-sleep-wake-disorder",
+    name: "Circadian Rhythm Sleep-Wake Disorder",
+    category: "Sleep-Wake Disorders",
+    aliases: ["Circadian rhythm disorder", "Delayed sleep phase", "Shift work sleep disorder"],
+    searchTerms: ["circadian", "sleep phase", "shift work", "non-24"],
+    summary:
+      "Circadian rhythm sleep-wake disorder is a mismatch between the person's internal clock and the sleep schedule that their life requires. Patients often say they can sleep, just not at the time they need to, and that distinction is often what separates circadian problems from primary insomnia.",
+    highlights: [
+      { label: "Clock mismatch", text: "The central issue is timing. The sleep pattern may work biologically, but it is misaligned with social or occupational demands." },
+      { label: "Subtype matters", text: "Delayed sleep-wake phase, advanced phase, irregular sleep-wake rhythm, non-24-hour type, and shift-work type can look quite different in practice." },
+      { label: "History first", text: "A careful sleep schedule history and sleep diary are often more helpful than a generic sleep complaint alone." },
+    ],
+    criteria: [
+      {
+        title: "Criterion A",
+        items: [
+          "There is a persistent or recurrent pattern of sleep disruption due primarily to alteration of the circadian system or misalignment between the endogenous circadian rhythm and the sleep-wake schedule required by the person's environment.",
+        ],
+      },
+      {
+        title: "Criterion B",
+        items: [
+          "The sleep disruption leads to excessive sleepiness, insomnia, or both.",
+        ],
+      },
+      {
+        title: "Criterion C",
+        items: [
+          "The sleep disturbance causes clinically significant distress or impairment.",
+        ],
+      },
+    ],
+    scales: [
+      { name: "Sleep diary", use: "Most useful first tool for seeing the actual pattern across days and weeks." },
+      { name: "Actigraphy", use: "Helpful when trying to document sleep timing and circadian pattern objectively." },
+      { name: "Epworth Sleepiness Scale", use: "Useful if daytime sleepiness is prominent." },
+    ],
+    medications: [
+      {
+        section: "FDA-approved medication relevant to circadian disorders",
+        note:
+          "Tasimelteon has FDA labeling for non-24-hour sleep-wake disorder in blind adults. Other circadian interventions are often behavioral, light-based, or used off-label.",
+        drugs: ["Tasimelteon"],
+      },
+    ],
+    offLabelTreatments: ["Melatonin", "Ramelteon", "Wake-promoting agents in shift-work contexts"],
+    interventionalOptions: [
+      "Light therapy and schedule-based interventions are more central here than interventional psychiatry procedures.",
+      "TMS, ketamine, and ECT are not standard treatments for circadian rhythm sleep-wake disorders.",
+      "Care often depends on subtype-specific chronotherapy and behavioral planning.",
+    ],
+  },
+  {
+    id: "nightmare-disorder",
+    name: "Nightmare Disorder",
+    category: "Sleep-Wake Disorders",
+    aliases: ["Nightmares", "Dream anxiety disorder"],
+    searchTerms: ["nightmares", "disturbing dreams", "dream recall"],
+    summary:
+      "Nightmare disorder involves repeated, vividly remembered dysphoric dreams that typically center on threats to survival, safety, or physical integrity and leave the person alert and distressed after awakening. The diagnosis becomes clinically relevant when the dreams are recurrent enough to disrupt sleep, mood, or daytime functioning.",
+    highlights: [
+      { label: "Recall is usually clear", text: "Unlike some other parasomnias, patients usually awaken quickly and can recall the dream content in detail." },
+      { label: "Daytime effect", text: "The dreams matter most clinically when they begin causing avoidance, sleep loss, anticipatory anxiety, or daytime impairment." },
+      { label: "Context matters", text: "Trauma history, PTSD symptoms, medications, and substance use are important parts of the workup." },
+    ],
+    criteria: [
+      {
+        title: "Criterion A",
+        items: [
+          "There are repeated occurrences of extended, extremely dysphoric, and well-remembered dreams that usually involve efforts to avoid threats to survival, security, or physical integrity.",
+        ],
+      },
+      {
+        title: "Criterion B",
+        items: [
+          "On awakening from the dysphoric dreams, the person rapidly becomes oriented and alert.",
+        ],
+      },
+      {
+        title: "Criterion C",
+        items: [
+          "The sleep disturbance causes clinically significant distress or impairment.",
+        ],
+      },
+      {
+        title: "Criterion D",
+        items: [
+          "The nightmare symptoms are not attributable to a substance or medication.",
+        ],
+      },
+      {
+        title: "Criterion E",
+        items: [
+          "Coexisting mental and medical disorders do not adequately explain the predominant complaint of dysphoric dreams.",
+        ],
+      },
+    ],
+    scales: [
+      { name: "Nightmare Frequency Questionnaire", use: "Useful when tracking recurrence and treatment response over time." },
+      { name: "Pittsburgh Sleep Quality Index", use: "Helpful for broader sleep disruption around nightmares." },
+      { name: "PCL-5", use: "Important when trauma-related nightmares are part of a broader PTSD picture." },
+    ],
+    medications: [
+      {
+        section: "Diagnosis-specific FDA indications",
+        note:
+          "This prototype does not list a core nightmare-disorder-specific FDA medication indication; management often depends on cause, trauma context, and sleep history.",
+        drugs: [],
+      },
+    ],
+    offLabelTreatments: ["Prazosin", "Clonidine", "Cyproheptadine in selected cases"],
+    interventionalOptions: [
+      "Imagery rehearsal therapy is often a more central intervention than medication alone.",
+      "Interventional psychiatry procedures are not standard treatments for nightmare disorder itself.",
+      "ECT, TMS, and ketamine are not standard nightmare-disorder treatments.",
+    ],
+  },
+  {
+    id: "restless-legs-syndrome",
+    name: "Restless Legs Syndrome",
+    category: "Sleep-Wake Disorders",
+    aliases: ["RLS", "Willis-Ekbom disease"],
+    searchTerms: ["restless legs", "urge to move legs", "worse at night"],
+    summary:
+      "Restless legs syndrome is the uncomfortable urge to move the legs that tends to get worse at rest, worse in the evening, and at least partly better with movement. Patients often describe it as a sleep problem, but the key experience is the sensory-motor discomfort that makes resting and falling asleep hard.",
+    highlights: [
+      { label: "Timing matters", text: "Symptoms classically worsen in the evening or at night, which helps separate RLS from many other causes of leg discomfort." },
+      { label: "Movement helps", text: "Temporary relief with walking, stretching, or movement is a strong clue." },
+      { label: "Medical review", text: "Iron deficiency, pregnancy, renal disease, neuropathy, and medication effects all deserve attention in the workup." },
+    ],
+    criteria: [
+      {
+        title: "Criterion A",
+        items: [
+          "There is an urge to move the legs, usually accompanied by or in response to uncomfortable and unpleasant sensations in the legs.",
+          "The urge to move or unpleasant sensations begin or worsen during periods of rest or inactivity.",
+          "The urge to move or unpleasant sensations are partially or totally relieved by movement.",
+          "The urge to move or unpleasant sensations are worse in the evening or at night than during the day or occur only in the evening or at night.",
+        ],
+      },
+      {
+        title: "Criterion B",
+        items: [
+          "The symptoms in Criterion A occur at least 3 times per week and have persisted for at least 3 months.",
+        ],
+      },
+      {
+        title: "Criterion C",
+        items: [
+          "The symptoms are accompanied by significant distress or impairment.",
+        ],
+      },
+      {
+        title: "Criterion D",
+        items: [
+          "The symptoms are not attributable solely to another mental disorder, behavioral condition, substance effect, or medical condition.",
+        ],
+      },
+    ],
+    scales: [
+      { name: "International Restless Legs Syndrome Rating Scale", use: "Standard measure for symptom severity and treatment response." },
+      { name: "Sleep diary", use: "Helpful when symptoms are mainly discussed as difficulty settling or staying asleep." },
+      { name: "Ferritin and iron studies", use: "Not a psychiatric scale, but often clinically essential in the workup." },
+    ],
+    medications: [
+      {
+        section: "FDA-approved medications for restless legs syndrome",
+        note:
+          "Several medications have FDA labeling for moderate to severe primary restless legs syndrome, with selection shaped by augmentation risk, sedation, and comorbidity.",
+        drugs: ["Gabapentin enacarbil", "Pramipexole", "Ropinirole", "Rotigotine"],
+      },
+    ],
+    offLabelTreatments: ["Pregabalin", "Gabapentin", "Iron replacement when indicated"],
+    interventionalOptions: [
+      "Interventional psychiatry modalities are not standard treatments for restless legs syndrome.",
+      "Management usually depends on iron status, medication review, and sleep medicine or neurology-informed treatment.",
+      "ECT, TMS, and ketamine are not standard RLS interventions.",
+    ],
+  },
 ];
