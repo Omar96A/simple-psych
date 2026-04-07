@@ -982,6 +982,7 @@ function renderBlogIndex() {
         <section class="panel detail-panel detail-panel--centered">
           <article class="profile profile--standalone profile--info">
             <header class="profile-header">
+              <a class="back-link" href="/">← Back to all diagnoses</a>
               <p class="profile-category">Blog</p>
               <h1>Simple Psych Blog</h1>
               <p class="lede lede--narrow">New posts can be published by adding another entry to <code>public/data/blogPosts.js</code> and redeploying.</p>
