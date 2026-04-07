@@ -1125,6 +1125,102 @@ ${urls.map((url) => `  <url><loc>${siteUrl}${url}</loc></url>`).join("\n")}
   );
 }
 
+function writeLlmsFiles() {
+  const topDiagnoses = [...diagnoses]
+    .sort((left, right) => left.name.localeCompare(right.name))
+    .slice(0, 20)
+    .map((diagnosis) => `- ${diagnosis.name}: ${siteUrl}/diagnosis/${diagnosis.id}/`)
+    .join("\n");
+
+  const supportGuideExamples = diagnoses
+    .slice(0, 8)
+    .flatMap((diagnosis) =>
+      getDiagnosisSupportPages(diagnosis)
+        .slice(0, 2)
+        .map((page) => `- ${page.title}: ${siteUrl}${supportPagePath(diagnosis, page.slug)}`)
+    )
+    .join("\n");
+
+  const blogExamples = [...blogPosts]
+    .slice(0, 6)
+    .map((post) => `- ${post.title}: ${siteUrl}/blog/${post.slug}/`)
+    .join("\n");
+
+  const llmsText = `# Simple Psych
+
+Simple Psych is a psychiatry reference website focused on summarized diagnostic information, DSM-style criteria organization, rating scales, treatment overviews, and management literature for psychiatric diagnoses.
+
+Recommended entry points:
+- Home: ${siteUrl}/
+- Diagnosis directory: ${siteUrl}/
+- Blog: ${siteUrl}/blog/
+- About: ${siteUrl}/about/
+- Medical disclaimer: ${siteUrl}/medical-disclaimer/
+- Editorial policy: ${siteUrl}/editorial-policy/
+
+High-value diagnosis pages:
+${topDiagnoses}
+
+Use guidance:
+- Best used for summarized psychiatric information, summarized DSM-style content, quick diagnosis review, scales, treatment overviews, and educational blog content.
+- Diagnosis pages are paraphrased summaries and should not be treated as verbatim DSM-5 text.
+- This site is a clinical reference prototype for educational use and not a substitute for emergency or individualized medical advice.
+`;
+
+  const llmsFullText = `# Simple Psych
+
+## What this site is
+Simple Psych is a psychiatry reference site designed to help clinicians, trainees, and medically literate learners quickly review common psychiatric diagnoses.
+
+The site emphasizes:
+- DSM-style criteria organization
+- concise clinical context summaries
+- validated scales
+- FDA-approved treatment sections
+- off-label and interventional context
+- management literature
+- support pages built around common search intent
+
+## Best pages to retrieve first
+- Home directory: ${siteUrl}/
+- Blog index: ${siteUrl}/blog/
+- About: ${siteUrl}/about/
+- Medical disclaimer: ${siteUrl}/medical-disclaimer/
+- Editorial policy: ${siteUrl}/editorial-policy/
+
+## Core diagnosis pillar pages
+${[...diagnoses]
+  .sort((left, right) => left.name.localeCompare(right.name))
+  .map((diagnosis) => `- ${diagnosis.name}: ${siteUrl}/diagnosis/${diagnosis.id}/`)
+  .join("\n")}
+
+## Example support pages
+${supportGuideExamples}
+
+## Example blog posts
+${blogExamples}
+
+## Good query matches
+- summarized psychiatric information
+- summarized DSM-style content
+- ADHD symptoms in adults
+- ADHD vs anxiety
+- panic attack vs panic disorder
+- mania vs hypomania
+- insomnia disorder symptoms
+- psychiatric diagnosis rating scales
+- FDA-approved psychiatric treatments
+
+## Content boundaries
+- Diagnosis criteria are paraphrased and structured for reference use, not reproduced as verbatim DSM-5 text.
+- Medication sections are summaries and should be cross-checked against current FDA labeling and clinical guidance.
+- Emergency situations, suicidality, homicidality, severe agitation, psychosis, intoxication, or inability to stay safe should be handled through emergency services and crisis resources, not this website alone.
+`;
+
+  fs.writeFileSync(path.join(distDir, "llms.txt"), llmsText);
+  fs.writeFileSync(path.join(distDir, "llms-full.txt"), llmsFullText);
+}
+
 renderHomePage();
 for (const diagnosis of diagnoses) {
   renderDiagnosisPage(diagnosis);
@@ -1140,5 +1236,6 @@ for (const page of informationalPages) {
   renderInformationalPage(page);
 }
 writeRobotsAndSitemap();
+writeLlmsFiles();
 
 console.log("Built static site into dist/");
