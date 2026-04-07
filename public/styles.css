@@ -229,6 +229,7 @@ input[type="search"]:focus {
 }
 
 .ad-slot {
+  display: none;
   margin: 28px auto 0;
   padding-top: 6px;
   border-top: 1px solid rgba(50, 96, 128, 0.08);
