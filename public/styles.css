@@ -221,6 +221,14 @@ input[type="search"]:focus {
   margin: 28px auto 0;
 }
 
+.profile-section + .ad-slot {
+  margin-top: 20px;
+}
+
+.ad-slot + .profile-section {
+  margin-top: 20px;
+}
+
 .ad-slot__label {
   display: block;
   margin-bottom: 8px;
@@ -248,7 +256,7 @@ input[type="search"]:focus {
 }
 
 .ad-slot--inline .ad-slot__box {
-  min-height: 180px;
+  min-height: 120px;
 }
 
 .profile {
