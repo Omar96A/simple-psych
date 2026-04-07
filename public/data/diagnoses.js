@@ -6,19 +6,19 @@ export const diagnoses = [
     aliases: ["MDD", "Major depression"],
     searchTerms: ["depression", "unipolar depression"],
     summary:
-      "MDD centers on one or more depressive episodes marked by persistent low mood and-or loss of interest, paired with neurovegetative and cognitive symptoms that cause distress or impairment and are not better explained by substances, medical illness, or a bipolar-spectrum condition.",
+      "Major depressive disorder is usually the picture people imagine when they think of a true depressive episode: a sustained drop in mood or interest, plus changes in sleep, energy, appetite, thinking, and day-to-day functioning that feel like a clear shift from the person's baseline.",
     highlights: [
       {
         label: "Clinical frame",
-        text: "Think in episodes: at least 2 weeks of symptoms representing a change from baseline.",
+        text: "Think in episodes. The key question is whether this looks like at least 2 weeks of symptoms that clearly differ from the person's usual self.",
       },
       {
         label: "Rule-outs",
-        text: "Screen for mania or hypomania, substances, bereavement context, psychosis, and medical contributors.",
+        text: "Before settling on MDD, slow down and check for bipolarity, substance effects, psychosis, grief context, and medical contributors.",
       },
       {
         label: "Specifier thinking",
-        text: "Assess anxious distress, melancholic features, psychotic features, seasonality, catatonia, and peripartum onset.",
+        text: "Once the episode is established, the next useful step is asking how it presents: anxious distress, melancholic features, psychosis, seasonality, catatonia, or peripartum onset can all change management.",
       },
     ],
     criteria: [
@@ -112,19 +112,19 @@ export const diagnoses = [
     aliases: ["Bipolar I", "Bipolar 1 disorder"],
     searchTerms: ["mania", "bipolar disorder", "mixed features"],
     summary:
-      "Bipolar I disorder requires at least one manic episode. Many patients also experience major depressive episodes, but mania is the defining threshold. Assessment should focus on episodicity, decreased need for sleep, increased goal-directed activity, psychosis, mixed symptoms, and substance or antidepressant effects.",
+      "Bipolar I disorder is defined by mania. Many patients spend more time depressed than manic, but a single true manic episode changes the diagnostic frame and has major implications for risk, treatment, and long-term planning.",
     highlights: [
       {
         label: "Defining feature",
-        text: "A full manic episode is enough for diagnosis, even if depressive episodes are absent.",
+        text: "A full manic episode is enough for the diagnosis, even if the person has never had a major depressive episode.",
       },
       {
         label: "High-risk points",
-        text: "Look closely at psychosis, impulsive behavior, suicidality, and rapidly escalating functional disruption.",
+        text: "The highest-stakes questions are usually about psychosis, impulsivity, suicidality, spending, sexual risk, agitation, and how fast functioning is falling apart.",
       },
       {
         label: "Treatment lens",
-        text: "Match medication section to polarity: acute mania, bipolar depression, or maintenance prevention.",
+        text: "Treatment decisions usually make the most sense when you anchor them to polarity: acute mania, bipolar depression, or maintenance after stabilization.",
       },
     ],
     criteria: [
@@ -213,19 +213,19 @@ export const diagnoses = [
     aliases: ["Schizophrenia disorder"],
     searchTerms: ["psychosis", "hallucinations", "delusions"],
     summary:
-      "Schizophrenia involves persistent psychotic illness with characteristic positive symptoms, functional decline, and a total disturbance lasting at least 6 months. Negative symptoms, cognitive impairment, mood overlap, substance use, and medical causes all need careful review.",
+      "Schizophrenia is a chronic psychotic illness in which delusions, hallucinations, disorganization, and negative symptoms begin to reshape how a person functions over time. The diagnosis becomes clearer when the psychotic symptoms persist, functioning drops, and shorter or mood-driven explanations stop fitting well.",
     highlights: [
       {
         label: "Timeline",
-        text: "At least 1 month of active-phase symptoms inside a total disturbance of 6 months or more.",
+        text: "The timing matters. You need at least 1 month of active symptoms within a broader disturbance that lasts 6 months or longer.",
       },
       {
         label: "Mandatory symptom mix",
-        text: "Two or more core symptoms are required, and one must be delusions, hallucinations, or disorganized speech.",
+        text: "Not every symptom combination qualifies. You need at least two core psychotic symptoms, and one of them must be delusions, hallucinations, or disorganized speech.",
       },
       {
         label: "Functional anchor",
-        text: "Marked decline in work, relationships, or self-care helps separate schizophrenia from briefer syndromes.",
+        text: "A real drop in work, relationships, school performance, or self-care helps separate schizophrenia from briefer or less entrenched psychotic syndromes.",
       },
     ],
     criteria: [
@@ -335,19 +335,19 @@ export const diagnoses = [
     aliases: ["ADHD"],
     searchTerms: ["attention deficit", "inattention", "hyperactivity", "impulsivity"],
     summary:
-      "ADHD is defined by a developmentally inappropriate pattern of inattention and-or hyperactivity-impulsivity that begins before age 12, appears across settings, and causes impairment. History from multiple informants is often crucial, especially when evaluating adults retrospectively.",
+      "ADHD is not just distractibility. It is a longstanding pattern of inattention, hyperactivity, impulsivity, or some combination of the three that starts early, shows up across settings, and genuinely gets in the way of functioning.",
     highlights: [
       {
         label: "Two-domain structure",
-        text: "Symptoms can be predominantly inattentive, predominantly hyperactive-impulsive, or combined presentation.",
+        text: "It helps to think in two buckets: inattentive symptoms and hyperactive-impulsive symptoms. Some patients live mostly in one domain, while others clearly show both.",
       },
       {
         label: "Cross-setting rule",
-        text: "Symptoms should be evident in at least two settings such as school, work, home, or social contexts.",
+        text: "The pattern should not live in just one environment. Symptoms need to show up in at least two settings, such as home, school, work, or social life.",
       },
       {
         label: "Adult nuance",
-        text: "Adults may show more disorganization, distractibility, restlessness, and executive dysfunction than overt hyperactivity.",
+        text: "Adults often look less overtly hyperactive than children. What shows up instead may be restlessness, disorganization, forgetfulness, and chronic executive-function problems.",
       },
     ],
     criteria: [
@@ -431,19 +431,19 @@ export const diagnoses = [
     aliases: ["OCD"],
     searchTerms: ["obsessions", "compulsions"],
     summary:
-      "OCD is characterized by intrusive obsessions, repetitive compulsions, or both. The symptoms are time-consuming or impairing and are not simply excessive worries from another disorder or the physiologic effect of substances. Insight can range from good to absent-delusional beliefs.",
+      "OCD usually feels to patients like getting trapped in a loop. Unwanted thoughts, urges, or images show up again and again, and the person starts doing rituals or mental acts to lower the distress, even when part of them knows the cycle does not really make sense.",
     highlights: [
       {
         label: "Core distinction",
-        text: "Obsessions are intrusive thoughts or urges; compulsions are repetitive acts performed to reduce distress or prevent feared outcomes.",
+        text: "The most useful distinction is simple: obsessions are the intrusive experiences, and compulsions are what the person does to feel safer, more certain, or less distressed.",
       },
       {
         label: "Time and impairment",
-        text: "Symptoms are often flagged when they take more than an hour a day or clearly disrupt functioning.",
+        text: "In practice, OCD starts to stand out when it is eating up time, driving avoidance, or making ordinary routines feel much harder than they should.",
       },
       {
         label: "Treatment pairing",
-        text: "Exposure and response prevention remains central, while medication choices are typically SSRI-based or clomipramine-based.",
+        text: "The usual treatment conversation pairs ERP with medication. Most medication pathways start with an SSRI, with clomipramine as another classic option.",
       },
     ],
     criteria: [
@@ -504,11 +504,11 @@ export const diagnoses = [
     aliases: ["GAD"],
     searchTerms: ["worry", "chronic anxiety"],
     summary:
-      "GAD centers on excessive anxiety and worry about multiple domains occurring more days than not for at least 6 months, with difficulty controlling the worry and associated physical or cognitive symptoms.",
+      "Generalized anxiety disorder often sounds like a mind that cannot let go. The worry moves from one topic to another, keeps going even when the person knows it is excessive, and starts to show up in the body through tension, poor sleep, irritability, and mental fatigue.",
     highlights: [
-      { label: "Time threshold", text: "Worry is persistent across at least 6 months rather than brief situational anxiety." },
-      { label: "Breadth", text: "The worry is diffuse and spreads across multiple life areas rather than a single feared trigger." },
-      { label: "Clinical overlap", text: "Rule out panic disorder, OCD, PTSD, illness anxiety, substance effects, and hyperthyroid-like medical presentations." },
+      { label: "Time threshold", text: "This is not brief situational stress. The worry tends to stick around across months and becomes part of the person's daily life." },
+      { label: "Breadth", text: "The worry is usually broad rather than narrowly focused, moving across health, finances, work, family, and ordinary responsibilities." },
+      { label: "Clinical overlap", text: "It is worth checking whether this is really GAD or whether panic, OCD, PTSD, illness anxiety, substances, or a medical problem fits better." },
     ],
     criteria: [
       {
@@ -576,11 +576,11 @@ export const diagnoses = [
     aliases: ["Panic attacks disorder"],
     searchTerms: ["panic attacks", "sudden fear", "agoraphobia overlap"],
     summary:
-      "Panic disorder is defined by recurrent unexpected panic attacks followed by persistent concern about additional attacks or maladaptive behavior change related to them.",
+      "Panic disorder is more than having panic attacks. The syndrome becomes panic disorder when the attacks are recurrent, seem to come out of the blue, and leave behind ongoing fear, avoidance, or behavior change that starts organizing the person's life around the next attack.",
     highlights: [
-      { label: "Unexpected attacks", text: "The attacks are not always cued by the same trigger and arrive abruptly." },
-      { label: "Aftermath matters", text: "The diagnosis requires more than attacks alone; ongoing worry or avoidance after attacks is essential." },
-      { label: "Medical rule-outs", text: "Cardiopulmonary, endocrine, vestibular, and substance-related causes should be reviewed carefully." },
+      { label: "Unexpected attacks", text: "What makes this different from simple situational anxiety is that the attacks feel abrupt and are not always tied to the same obvious trigger." },
+      { label: "Aftermath matters", text: "The aftermath is what makes the diagnosis. Patients often start scanning their body, avoiding places, or reorganizing routines out of fear of another attack." },
+      { label: "Medical rule-outs", text: "Because the symptoms can look medical, it is important to think through cardiopulmonary, endocrine, vestibular, and substance-related explanations too." },
     ],
     criteria: [
       {
@@ -637,11 +637,11 @@ export const diagnoses = [
     aliases: ["Social phobia"],
     searchTerms: ["performance anxiety", "social phobia"],
     summary:
-      "Social anxiety disorder involves marked fear or anxiety about social situations in which the person may be scrutinized, leading to avoidance, intense distress, or endurance with fear out of proportion to actual threat.",
+      "Social anxiety disorder is usually about being seen, judged, embarrassed, or exposed in front of other people. Some patients avoid those situations entirely, while others keep showing up but feel tense, preoccupied, and exhausted by the experience.",
     highlights: [
-      { label: "Scrutiny theme", text: "The feared outcome is embarrassment, rejection, humiliation, or visible anxiety symptoms in front of others." },
-      { label: "Duration", text: "The pattern typically lasts at least 6 months." },
-      { label: "Subtype thinking", text: "Performance-only fears can look different from broader interpersonal and social avoidance." },
+      { label: "Scrutiny theme", text: "The feared outcome is usually some form of negative evaluation, like embarrassment, rejection, humiliation, or visibly looking anxious." },
+      { label: "Duration", text: "This tends to be a stable pattern, not just a bad week or a rough stretch before one important event." },
+      { label: "Subtype thinking", text: "Some people fear only performance situations, while others struggle across much broader social and interpersonal settings." },
     ],
     criteria: [
       {
@@ -726,11 +726,11 @@ export const diagnoses = [
     aliases: ["PTSD"],
     searchTerms: ["trauma", "flashbacks", "nightmares", "hypervigilance"],
     summary:
-      "PTSD follows exposure to actual or threatened death, serious injury, or sexual violence and includes intrusion symptoms, avoidance, negative changes in cognition or mood, and arousal-reactivity changes lasting more than 1 month.",
+      "PTSD develops after a qualifying trauma and often shows up as a mix of reliving, avoidance, emotional constriction, negative beliefs, hypervigilance, and a nervous system that no longer seems able to stand down.",
     highlights: [
-      { label: "Exposure first", text: "The diagnosis begins with qualifying trauma exposure, whether direct, witnessed, learned about, or repeated professional exposure." },
-      { label: "Four symptom clusters", text: "Intrusion, avoidance, negative cognition-mood changes, and arousal-reactivity symptoms all guide assessment." },
-      { label: "Function matters", text: "The syndrome must create distress or impairment and not be better explained by substances or medical illness." },
+      { label: "Exposure first", text: "The first question is always whether the trauma exposure actually meets diagnostic threshold, whether direct, witnessed, learned about, or repeatedly encountered in professional work." },
+      { label: "Four symptom clusters", text: "Once exposure is established, it helps to organize the picture into intrusion, avoidance, negative mood-cognition changes, and arousal-reactivity symptoms." },
+      { label: "Function matters", text: "The symptoms have to matter clinically. They should be causing distress, impairment, or both, and not be better explained by substances or medical illness." },
     ],
     criteria: [
       {
@@ -809,11 +809,11 @@ export const diagnoses = [
     aliases: ["Bipolar II", "Bipolar 2 disorder"],
     searchTerms: ["hypomania", "bipolar depression"],
     summary:
-      "Bipolar II disorder requires at least one hypomanic episode and at least one major depressive episode, with no history of full mania. Functional impairment often comes more from depressive burden than hypomania itself.",
+      "Bipolar II disorder lives in the space between recurrent depression and a history of unmistakable hypomania, without any true manic episode. In real life, many patients come to treatment because of depression, while the hypomanic periods are only recognized later in the story.",
     highlights: [
-      { label: "No mania", text: "Any lifetime manic episode shifts the diagnosis away from bipolar II toward bipolar I." },
-      { label: "Hypomania threshold", text: "Hypomania lasts at least 4 days and is observable but not severely impairing or psychotic." },
-      { label: "Depressive burden", text: "Episodes of depression are often what bring patients to care and drive morbidity." },
+      { label: "No mania", text: "The boundary is important. If the person has ever had a full manic episode, the diagnosis is no longer bipolar II." },
+      { label: "Hypomania threshold", text: "Hypomania still has to be a real episode. It lasts at least 4 days, is noticeable to others, and reflects a clear change from baseline." },
+      { label: "Depressive burden", text: "Most of the suffering often comes from the depressive side, which is why bipolar II is so often missed early on." },
     ],
     criteria: [
       {
@@ -893,11 +893,11 @@ export const diagnoses = [
     aliases: ["ASD", "Autism"],
     searchTerms: ["autism", "social communication", "restricted interests"],
     summary:
-      "ASD is defined by persistent deficits in social communication and social interaction alongside restricted, repetitive patterns of behavior, interests, or activities, with onset in early development and clinically meaningful functional impact.",
+      "Autism spectrum disorder is best understood as a developmental pattern involving persistent social-communication differences alongside restricted or repetitive behaviors, interests, routines, or sensory styles. The presentation can look very different from one person to another, which is why context and support needs matter so much.",
     highlights: [
-      { label: "Two-domain model", text: "Assessment centers on social communication deficits plus restricted-repetitive behaviors." },
-      { label: "Developmental onset", text: "Symptoms begin early, even if full functional impact becomes more obvious later." },
-      { label: "Severity framing", text: "Support needs differ widely, so specifiers and adaptive functioning matter." },
+      { label: "Two-domain model", text: "The evaluation usually comes back to two broad areas: social communication and restricted or repetitive patterns of behavior." },
+      { label: "Developmental onset", text: "The pattern starts early, even if it becomes more visible only when social or adaptive demands increase." },
+      { label: "Severity framing", text: "Support needs vary widely, so adaptive functioning and day-to-day context matter more than any one single trait." },
     ],
     criteria: [
       {
@@ -960,11 +960,11 @@ export const diagnoses = [
     aliases: ["AN"],
     searchTerms: ["restricting", "low weight", "fear of weight gain"],
     summary:
-      "Anorexia nervosa is defined by restriction of energy intake leading to significantly low body weight, intense fear of weight gain or persistent behavior interfering with weight gain, and a distorted experience of body weight or shape.",
+      "Anorexia nervosa is not just low weight. It is a pattern of restriction, fear of weight gain, and body-image distortion that pulls eating, identity, and self-evaluation into a narrow and often dangerous cycle.",
     highlights: [
-      { label: "Low weight required", text: "Significantly low weight is part of the core syndrome." },
-      { label: "Psychological drivers", text: "Fear of gaining weight and distorted body-image beliefs help distinguish the disorder from other causes of weight loss." },
-      { label: "Subtype thinking", text: "Clarify restricting type versus binge-eating-purging type." },
+      { label: "Low weight required", text: "Significantly low weight remains part of the core diagnosis, so the syndrome is not defined by thoughts alone." },
+      { label: "Psychological drivers", text: "The fear of weight gain and the distorted relationship to body shape help distinguish anorexia from other causes of weight loss." },
+      { label: "Subtype thinking", text: "It is still helpful to ask whether the picture is primarily restrictive or whether binge-purge behaviors are also part of it." },
     ],
     criteria: [
       {
@@ -1013,11 +1013,11 @@ export const diagnoses = [
     aliases: ["BN"],
     searchTerms: ["bingeing", "purging"],
     summary:
-      "Bulimia nervosa involves recurrent binge eating with inappropriate compensatory behaviors, occurring on average at least once weekly for 3 months, with self-evaluation unduly influenced by body shape and weight.",
+      "Bulimia nervosa usually looks like a painful cycle of binge eating followed by attempts to undo the binge through purging, fasting, overexercise, or other compensatory behaviors. Shame, secrecy, and shape-weight overvaluation are often central to how the illness is experienced.",
     highlights: [
-      { label: "Binge plus compensation", text: "Both loss-of-control eating episodes and compensatory behaviors are required." },
-      { label: "Frequency threshold", text: "The pattern occurs at least weekly for 3 months." },
-      { label: "Differential", text: "Differentiate from anorexia nervosa binge-eating-purging type by current body-weight status." },
+      { label: "Binge plus compensation", text: "Both parts matter. The diagnosis requires loss-of-control binge episodes and compensatory behavior afterward." },
+      { label: "Frequency threshold", text: "The pattern has to be recurring, not occasional. DSM threshold is at least weekly for 3 months." },
+      { label: "Differential", text: "One of the main distinctions is whether the person is currently at significantly low weight, which may shift the frame toward anorexia nervosa." },
     ],
     criteria: [
       {
@@ -1079,11 +1079,11 @@ export const diagnoses = [
     aliases: ["BED"],
     searchTerms: ["loss of control eating", "binge eating"],
     summary:
-      "Binge-eating disorder involves recurrent binge episodes with marked distress and associated features such as rapid eating, eating when not hungry, or guilt afterward, without regular compensatory behaviors.",
+      "Binge-eating disorder centers on recurrent loss-of-control eating that feels distressing and hard to stop, but without the regular purging or compensatory behaviors seen in bulimia nervosa. Patients often describe shame, secrecy, and feeling disconnected from hunger or fullness cues.",
     highlights: [
-      { label: "No regular compensatory behaviors", text: "That distinction helps separate BED from bulimia nervosa." },
-      { label: "Distress required", text: "Marked distress about binge eating is part of the diagnosis." },
-      { label: "Frequency threshold", text: "Episodes occur at least weekly for 3 months." },
+      { label: "No regular compensatory behaviors", text: "That is the major dividing line from bulimia nervosa and helps keep the diagnosis conceptually clean." },
+      { label: "Distress required", text: "The person has to be meaningfully distressed by the binge eating, not just overeating from time to time." },
+      { label: "Frequency threshold", text: "The episodes need to recur often enough to form a syndrome, with DSM threshold set at least weekly for 3 months." },
     ],
     criteria: [
       {
@@ -1145,11 +1145,11 @@ export const diagnoses = [
     aliases: ["AUD"],
     searchTerms: ["alcohol dependence", "problem drinking"],
     summary:
-      "Alcohol use disorder is a problematic pattern of alcohol use leading to impairment or distress, reflected in loss of control, risky use, social impairment, and pharmacologic features like tolerance or withdrawal.",
+      "Alcohol use disorder is the pattern that emerges when drinking stops being just a habit and starts causing loss of control, relationship strain, role failure, risky behavior, craving, tolerance, or withdrawal. The diagnosis becomes more convincing when use keeps going despite obvious consequences.",
     highlights: [
-      { label: "Severity count", text: "DSM severity is based on the number of criteria met over a 12-month period." },
-      { label: "Withdrawal matters", text: "Assessment should clarify withdrawal risk, medical complications, and level of care needs." },
-      { label: "Medication role", text: "FDA-indicated medications target relapse prevention or aversive conditioning rather than intoxication itself." },
+      { label: "Severity count", text: "Severity is count-based in DSM, so it helps to explicitly ask through the full checklist rather than relying on a general impression." },
+      { label: "Withdrawal matters", text: "A safe assessment has to include withdrawal risk, medical complications, and whether the person may need a higher level of care." },
+      { label: "Medication role", text: "Medication is usually about reducing craving, helping maintain abstinence, or making relapse less likely, not treating intoxication itself." },
     ],
     criteria: [
       {
@@ -1208,11 +1208,11 @@ export const diagnoses = [
     aliases: ["BPD"],
     searchTerms: ["affective instability", "self harm", "abandonment"],
     summary:
-      "Borderline personality disorder is a pervasive pattern of instability in relationships, self-image, affect, and impulse control beginning by early adulthood and present across contexts.",
+      "Borderline personality disorder is usually experienced as instability that touches nearly everything: relationships, identity, mood, anger, impulsivity, and the ability to feel steady from one moment to the next. The pattern is broad, longstanding, and often most visible under interpersonal stress.",
     highlights: [
-      { label: "Pattern across settings", text: "The diagnosis depends on a pervasive interpersonal and emotional pattern, not a brief crisis alone." },
-      { label: "Risk assessment", text: "Self-harm, suicidality, dissociation, and impulsive behaviors require careful ongoing assessment." },
-      { label: "Medication limits", text: "Medication is symptom-targeted rather than diagnosis-curative, and psychotherapy remains central." },
+      { label: "Pattern across settings", text: "The diagnosis is about a pervasive pattern, not a single crisis, breakup, or emotionally intense week." },
+      { label: "Risk assessment", text: "Self-harm, suicidality, dissociation, substance use, and impulsive behavior need repeated and careful assessment over time." },
+      { label: "Medication limits", text: "Medication may help with pieces of the picture, but psychotherapy remains the center of treatment for the disorder itself." },
     ],
     criteria: [
       {
