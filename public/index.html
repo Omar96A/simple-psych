@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Simple Psych</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body data-page="home">
+    <main class="app-shell">
+      <section class="hero hero--centered">
+        <div class="hero__copy">
+          <h1><a class="brand-link" href="/">Simple Psych</a></h1>
+          <p class="lede">
+            A diagnosis directory for psychiatry with profile pages that surface explicit DSM
+            criteria, concise DSM-context summaries, validated scales, treatment sections, and
+            linked management literature.
+          </p>
+        </div>
+      </section>
+
+      <section class="workspace workspace--centered">
+        <aside class="panel search-panel search-panel--centered">
+          <label class="search-label" for="diagnosis-search">Search here</label>
+          <div class="search-input-wrap">
+            <input
+              id="diagnosis-search"
+              name="query"
+              type="search"
+              placeholder="Search diagnoses, meds, symptoms"
+              autocomplete="off"
+            />
+          </div>
+          <p id="search-meta" class="search-meta">Loading diagnoses...</p>
+          <div id="diagnosis-list" class="diagnosis-list" aria-live="polite"></div>
+        </aside>
+
+        <section class="panel detail-panel detail-panel--centered">
+          <div id="detail-view" class="detail-view" aria-live="polite"></div>
+        </section>
+      </section>
+    </main>
+
+    <script type="module" src="/app.js"></script>
+  </body>
+  </html>
