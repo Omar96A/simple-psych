@@ -14,6 +14,7 @@ const rootDir = path.join(__dirname, "..");
 const publicDir = path.join(rootDir, "public");
 const distDir = path.join(rootDir, "dist");
 const siteUrl = (process.env.SITE_URL || "https://simplepsych.net").replace(/\/$/, "");
+const analyticsId = process.env.GA_MEASUREMENT_ID || "G-5QYX920HMP";
 
 fs.rmSync(distDir, { recursive: true, force: true });
 fs.mkdirSync(distDir, { recursive: true });
@@ -169,6 +170,18 @@ function renderArticles(diagnosis) {
 
 function pageShell({ title, description, canonicalPath, body, schema }) {
   const canonicalUrl = `${siteUrl}${canonicalPath}`;
+  const analyticsSnippet = analyticsId
+    ? `
+    <script async src="https://www.googletagmanager.com/gtag/js?id=${analyticsId}"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      window.gtag = gtag;
+      window.SIMPLE_PSYCH_ANALYTICS_ID = ${JSON.stringify(analyticsId)};
+      gtag('js', new Date());
+      gtag('config', ${JSON.stringify(analyticsId)}, { send_page_view: false });
+    </script>`
+    : "";
   return `<!DOCTYPE html>
 <html lang="en">
   <head>
@@ -187,6 +200,7 @@ function pageShell({ title, description, canonicalPath, body, schema }) {
     <meta name="twitter:title" content="${escapeHtml(title)}" />
     <meta name="twitter:description" content="${escapeHtml(description)}" />
     <link rel="stylesheet" href="/styles.css" />
+    ${analyticsSnippet}
     <script type="application/ld+json">${JSON.stringify(schema)}</script>
   </head>
   <body data-page="${canonicalPath === "/" ? "home" : "detail"}">

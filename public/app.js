@@ -25,6 +25,18 @@ function escapeHtml(value) {
     .replaceAll("'", "&#39;");
 }
 
+function trackPageView() {
+  if (typeof window.gtag !== "function") {
+    return;
+  }
+
+  window.gtag("event", "page_view", {
+    page_title: document.title,
+    page_location: window.location.href,
+    page_path: window.location.pathname,
+  });
+}
+
 function slugForDiagnosis(diagnosis) {
   return `/diagnosis/${diagnosis.id}`;
 }
@@ -346,10 +358,12 @@ function render() {
     } else {
       renderNotFound();
     }
+    trackPageView();
     return;
   }
 
   renderHomePage();
+  trackPageView();
 }
 
 searchInput.addEventListener("input", (event) => {
