@@ -13,7 +13,7 @@ const __dirname = path.dirname(__filename);
 const rootDir = path.join(__dirname, "..");
 const publicDir = path.join(rootDir, "public");
 const distDir = path.join(rootDir, "dist");
-const siteUrl = (process.env.SITE_URL || "https://simplepsych.com").replace(/\/$/, "");
+const siteUrl = (process.env.SITE_URL || "https://simplepsych.net").replace(/\/$/, "");
 
 fs.rmSync(distDir, { recursive: true, force: true });
 fs.mkdirSync(distDir, { recursive: true });
