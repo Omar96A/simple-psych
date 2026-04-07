@@ -153,6 +153,104 @@ const informationalPages = [
       },
     ],
   },
+  {
+    slug: "privacy-policy",
+    title: "Privacy Policy | Simple Psych",
+    description:
+      "Privacy Policy for Simple Psych, including analytics, hosting, advertising, data use, and how visitors can contact the site about privacy questions.",
+    schemaType: "PrivacyPolicy",
+    introEyebrow: "Privacy Policy",
+    introTitle: "What data the site uses and why.",
+    introText:
+      "Simple Psych is a public reference website. It does not offer user accounts or ask visitors to upload clinical records, but like most websites it still generates limited technical and analytics data when people browse it.",
+    sections: [
+      {
+        heading: "What data is collected",
+        paragraphs: [
+          "When you load the site, the hosting provider and analytics tools may process technical information such as IP address, browser type, device information, approximate location derived from IP, referrer, page URLs, and basic interaction events.",
+          "Simple Psych currently uses Google Analytics for site measurement. If advertising is activated later, ad providers may also receive technical request data needed to serve or measure ads.",
+          "The site does not currently provide user accounts, patient portals, or structured forms for visitors to enter protected health information.",
+        ],
+      },
+      {
+        heading: "How data is used",
+        paragraphs: [
+          "Technical and analytics data is used to understand traffic, improve page performance, identify broken pages, monitor abuse, and decide what diagnoses or support pages people are finding useful.",
+          "If ads are enabled, limited technical data may also be used for ad delivery, fraud prevention, frequency management, and performance reporting.",
+        ],
+      },
+      {
+        heading: "How data is shared",
+        paragraphs: [
+          "Data may be processed by infrastructure and measurement providers that help run the site, including Vercel for hosting and Google Analytics for traffic measurement.",
+          "Simple Psych does not claim to sell visitor personal information. Limited technical data may still be disclosed to service providers that help operate, secure, analyze, or monetize the site.",
+          "Data may also be disclosed when reasonably necessary for legal compliance, security, fraud prevention, or business transfer events.",
+        ],
+      },
+      {
+        heading: "Cookies and browser choices",
+        paragraphs: [
+          "Analytics or advertising tools may use cookies or similar technologies. Visitors can control many of those technologies through browser settings, privacy extensions, and Google’s analytics controls.",
+          "Because this is a public website, disabling cookies may not stop all server-side technical logging that is required to deliver pages securely.",
+        ],
+      },
+      {
+        heading: "Contact and updates",
+        paragraphs: [
+          "Questions about privacy or data use can be directed through the contact path listed on the Contact page.",
+          "This policy should be reviewed whenever analytics, advertising, forms, accounts, or data-sharing practices materially change.",
+        ],
+      },
+    ],
+  },
+  {
+    slug: "terms-of-service",
+    title: "Terms of Service | Simple Psych",
+    description:
+      "Terms of Service for Simple Psych, covering acceptable use, educational-only medical content, external links, disclaimers, and site operation.",
+    schemaType: "WebPage",
+    introEyebrow: "Terms of Service",
+    introTitle: "Ground rules for using the site.",
+    introText:
+      "These terms describe the basic rules for using Simple Psych. By using the website, you agree to use it only for lawful purposes and to treat it as an informational reference rather than individualized medical advice.",
+    sections: [
+      {
+        heading: "Educational use only",
+        paragraphs: [
+          "Simple Psych is provided as an educational and informational psychiatry reference. It is not a substitute for professional medical judgment, emergency care, diagnosis, or treatment advice for a specific person.",
+          "Users remain responsible for verifying clinical information against current labeling, licensed source materials, guidelines, and local standards of care.",
+        ],
+      },
+      {
+        heading: "Acceptable use",
+        paragraphs: [
+          "You agree not to misuse the site, interfere with site availability, attempt unauthorized access, scrape the site in abusive ways, introduce malicious code, or use the content to imply professional advice that the site does not provide.",
+          "If automated access becomes disruptive or abusive, the site owner may block or limit that traffic.",
+        ],
+      },
+      {
+        heading: "External services and links",
+        paragraphs: [
+          "Simple Psych links to external resources such as PubMed, DrugBank, Drugs.com, crisis resources, and other third-party websites. Those services operate under their own terms and privacy practices.",
+          "The site is not responsible for the content, uptime, or policies of external services that are linked from its pages.",
+        ],
+      },
+      {
+        heading: "Availability and changes",
+        paragraphs: [
+          "The site may change, expand, restrict features, or go offline at any time without notice. Content may be updated as diagnoses, support pages, references, or site features evolve.",
+          "Continued use after updates to these terms means you accept the revised terms.",
+        ],
+      },
+      {
+        heading: "Limitation of responsibility",
+        paragraphs: [
+          "To the extent permitted by applicable law, the site is provided on an as-is and as-available basis without guarantees that all content is complete, current, uninterrupted, or error-free.",
+          "If you are in crisis or facing an emergency, call 911, call or text 988 in the United States, or use emergency services in your region instead of relying on the website alone.",
+        ],
+      },
+    ],
+  },
 ];
 
 const HELP_REFERENCES = [
@@ -596,6 +694,8 @@ function renderSiteFooter() {
       <nav class="site-footer__links" aria-label="Footer">
         <a href="/blog/">Blog</a>
         <a href="/about/">About</a>
+        <a href="/privacy-policy/">Privacy Policy</a>
+        <a href="/terms-of-service/">Terms of Service</a>
         <a href="/medical-disclaimer/">Medical Disclaimer</a>
         <a href="/editorial-policy/">Editorial Policy</a>
         <a href="/contact/">Contact</a>
