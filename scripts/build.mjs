@@ -599,8 +599,6 @@ function renderSiteFooter() {
         <a href="/medical-disclaimer/">Medical Disclaimer</a>
         <a href="/editorial-policy/">Editorial Policy</a>
         <a href="/contact/">Contact</a>
-        <a href="/llms.txt">llms.txt</a>
-        <a href="/llms-full.txt">llms-full.txt</a>
       </nav>
       <p class="site-footer__note">
         Simple Psych is a clinical reference prototype for educational use and should be cross-checked against licensed source material and current guidance.
