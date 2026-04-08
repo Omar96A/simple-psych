@@ -24,7 +24,7 @@ body {
   min-height: 100vh;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
   color: var(--ink);
-  background: var(--bg);
+  background: rgba(236, 239, 241, 0.94);
 }
 
 a {
@@ -89,28 +89,20 @@ p {
   font-size: 1.08rem;
 }
 
-.hero-actions {
-  margin-top: 22px;
-  display: flex;
-  justify-content: center;
-}
-
-.hero-button,
-.practice-pill {
+.hero-button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   padding: 11px 18px;
   border-radius: 999px;
-  background: rgba(30, 136, 229, 0.1);
+  background: rgba(30, 136, 229, 0.16);
   color: var(--accent);
   font-weight: 700;
-  border: 1px solid rgba(30, 136, 229, 0.16);
+  border: 1px solid rgba(30, 136, 229, 0.24);
 }
 
-.hero-button:hover,
-.practice-pill:hover {
-  background: rgba(30, 136, 229, 0.16);
+.hero-button:hover {
+  background: rgba(30, 136, 229, 0.22);
 }
 
 .workspace {
@@ -130,7 +122,7 @@ body[data-page="detail"] .workspace {
 
 .panel {
   padding: 22px;
-  background: var(--surface);
+  background: rgba(255, 255, 255, 0.66);
   border: 1px solid var(--line);
   border-radius: 28px;
   box-shadow: var(--shadow);
@@ -142,6 +134,7 @@ body[data-page="detail"] .workspace {
   display: flex;
   flex-direction: column;
   max-height: calc(100vh - 36px);
+  background: rgba(207, 216, 220, 0.52);
 }
 
 body[data-page="detail"] .search-panel {
@@ -158,6 +151,7 @@ body[data-page="detail"] .detail-panel {
   margin-bottom: 10px;
   font-size: 0.88rem;
   font-weight: 700;
+  color: var(--accent);
   text-transform: uppercase;
   letter-spacing: 0.08em;
 }
@@ -213,7 +207,7 @@ input[type="search"]:focus {
 
 .directory-link:hover,
 .directory-link--active {
-  color: var(--accent-deep);
+  color: var(--accent);
 }
 
 .directory-meta {
@@ -355,9 +349,9 @@ input[type="search"]:focus {
 
 .profile-section--summary {
   padding: 20px 22px;
-  border: 1px solid rgba(144, 164, 174, 0.28);
+  border: 1px solid rgba(30, 136, 229, 0.18);
   border-radius: 24px;
-  background: rgba(207, 216, 220, 0.42);
+  background: rgba(30, 136, 229, 0.08);
 }
 
 .criteria-title {
@@ -377,15 +371,15 @@ input[type="search"]:focus {
 }
 
 .criterion-card--0 {
-  background: rgba(236, 239, 241, 0.96);
+  background: rgba(30, 136, 229, 0.08);
 }
 
 .criterion-card--1 {
-  background: rgba(207, 216, 220, 0.4);
+  background: rgba(207, 216, 220, 0.36);
 }
 
 .criterion-card--2 {
-  background: rgba(144, 164, 174, 0.16);
+  background: rgba(30, 136, 229, 0.05);
 }
 
 .criterion-card--3 {
@@ -439,7 +433,7 @@ input[type="search"]:focus {
   padding: 18px;
   border: 1px solid var(--line);
   border-radius: 20px;
-  background: rgba(255, 255, 255, 0.62);
+  background: rgba(30, 136, 229, 0.08);
 }
 
 .mini-card h4 {
@@ -594,169 +588,6 @@ input[type="search"]:focus {
   text-transform: uppercase;
 }
 
-.practice-panel {
-  display: grid;
-  gap: 34px;
-}
-
-.practice-mode-grid,
-.practice-score-grid {
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 18px;
-}
-
-.practice-card {
-  padding: 26px;
-}
-
-.practice-toolbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 16px;
-  flex-wrap: wrap;
-  margin-bottom: 24px;
-}
-
-.practice-toolbar__group {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  flex-wrap: wrap;
-}
-
-.practice-action {
-  cursor: pointer;
-  border: 0;
-}
-
-.practice-pill {
-  text-decoration: none;
-}
-
-.practice-config-row {
-  display: grid;
-  gap: 18px;
-}
-
-.practice-config-row label,
-.practice-jump {
-  display: grid;
-  gap: 8px;
-  font-size: 0.92rem;
-  color: var(--muted);
-}
-
-.practice-inline-controls,
-.practice-test-config {
-  display: grid;
-  gap: 14px;
-  margin: 18px 0 22px;
-}
-
-.practice-toggle {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.practice-config-row select,
-.practice-jump input {
-  padding: 12px 14px;
-  border: 1px solid var(--line);
-  border-radius: 14px;
-  background: rgba(255, 255, 255, 0.74);
-  color: var(--ink);
-}
-
-.practice-stem {
-  margin-bottom: 24px;
-  font-size: 1.05rem;
-  line-height: 1.7;
-}
-
-.practice-options {
-  display: grid;
-  gap: 14px;
-}
-
-.practice-option {
-  display: grid;
-  grid-template-columns: auto auto 1fr;
-  gap: 12px;
-  align-items: flex-start;
-  padding: 18px 18px;
-  border: 1px solid var(--line);
-  border-radius: 20px;
-  background: rgba(255, 255, 255, 0.78);
-  cursor: pointer;
-}
-
-.practice-option input {
-  margin-top: 3px;
-}
-
-.practice-option__letter {
-  min-width: 1.5rem;
-  font-weight: 700;
-  color: var(--accent-deep);
-}
-
-.practice-option--selected {
-  border-color: rgba(30, 136, 229, 0.24);
-  background: rgba(30, 136, 229, 0.08);
-}
-
-.practice-option--correct {
-  border-color: rgba(84, 110, 122, 0.24);
-  background: rgba(207, 216, 220, 0.45);
-}
-
-.practice-option--incorrect {
-  border-color: rgba(84, 110, 122, 0.18);
-  background: rgba(236, 239, 241, 0.72);
-}
-
-.practice-explanations {
-  display: grid;
-  gap: 20px;
-}
-
-.practice-status {
-  color: var(--accent);
-  font-size: 0.86rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-}
-
-.practice-review-summary {
-  margin-top: 28px;
-  padding: 18px 20px;
-  border: 1px solid var(--line);
-  border-radius: 18px;
-  background: rgba(207, 216, 220, 0.34);
-}
-
-.practice-timer {
-  padding: 8px 12px;
-  border-radius: 999px;
-  background: rgba(30, 136, 229, 0.12);
-  color: var(--accent);
-  font-weight: 700;
-}
-
-.practice-detail {
-  margin-top: 8px;
-}
-
-.practice-reference-block {
-  margin-top: 22px;
-  padding: 18px 20px;
-  border-radius: 18px;
-  background: rgba(207, 216, 220, 0.34);
-}
-
 @media (max-width: 980px) {
   .workspace {
     grid-template-columns: 1fr;
@@ -783,17 +614,5 @@ input[type="search"]:focus {
   .panel {
     padding: 18px;
     border-radius: 22px;
-  }
-
-  .hero-actions {
-    margin-top: 18px;
-  }
-
-  .practice-option {
-    grid-template-columns: auto 1fr;
-  }
-
-  .practice-option input {
-    grid-row: span 2;
   }
 }

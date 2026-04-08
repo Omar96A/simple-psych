@@ -9,7 +9,6 @@ import {
   getReferenceArticles,
 } from "../public/data/profileResources.js";
 import { blogPosts } from "../public/data/blogPosts.js";
-import { practiceQuestions } from "../public/data/practiceQuestions.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -693,7 +692,6 @@ function renderSiteFooter() {
   return `
     <footer class="site-footer">
       <nav class="site-footer__links" aria-label="Footer">
-        <a href="/practice/">Practice Questions</a>
         <a href="/blog/">Blog</a>
         <a href="/about/">About</a>
         <a href="/privacy-policy/">Privacy Policy</a>
@@ -707,59 +705,6 @@ function renderSiteFooter() {
       </p>
     </footer>
   `;
-}
-
-function renderPracticePage() {
-  const body = `
-    <main class="app-shell">
-      <section class="hero hero--centered">
-        <div class="hero__copy">
-          <h1><a class="brand-link" href="/">Simple Psych</a></h1>
-          <p class="lede">A dedicated question bank for psychiatry review, with study mode, timed or untimed tests, score reporting, and guided post-test review.</p>
-        </div>
-      </section>
-      <section class="workspace workspace--centered workspace--single">
-        <section class="panel detail-panel detail-panel--centered">
-          <div class="detail-view">
-            <article class="profile profile--standalone profile--info">
-              <header class="profile-header">
-                <a class="back-link" href="/">← Back to all diagnoses</a>
-                <p class="profile-category">Practice Questions</p>
-                <h1>ABPN and PRITE style review</h1>
-                <p class="lede lede--narrow">Use the ${practiceQuestions.length}-question bank in study mode, build a 10 to 50 question exam, or run a timed session with 90 seconds per question.</p>
-              </header>
-              <div id="practice-app"></div>
-            </article>
-          </div>
-        </section>
-      </section>
-      ${renderSiteFooter()}
-      <script type="module" src="/practice.js"></script>
-    </main>
-  `;
-
-  const schema = {
-    "@context": "https://schema.org",
-    "@type": "CollectionPage",
-    name: "Simple Psych Practice Questions",
-    url: `${siteUrl}/practice/`,
-    description:
-      "Psychiatry practice questions with multiple choice review, timed tests, score reporting, and study-guide links back to diagnosis pages.",
-  };
-
-  const practiceDir = path.join(distDir, "practice");
-  fs.mkdirSync(practiceDir, { recursive: true });
-  fs.writeFileSync(
-    path.join(practiceDir, "index.html"),
-    pageShell({
-      title: "Practice Questions | Simple Psych",
-      description:
-        "Psychiatry practice questions with ABPN and PRITE style multiple choice review, timed testing, answer explanations, and study-guide links.",
-      canonicalPath: "/practice/",
-      body,
-      schema,
-    })
-  );
 }
 
 function pageShell({ title, description, canonicalPath, body, schema }) {
@@ -818,9 +763,6 @@ function renderHomePage() {
             criteria, practical context, validated scales, treatment guidance, and key literature
             in one place.
           </p>
-          <div class="hero-actions">
-            <a class="hero-button" href="/practice/">Practice Questions</a>
-          </div>
         </div>
       </section>
       <section class="workspace workspace--centered">
@@ -1267,7 +1209,6 @@ function writeRobotsAndSitemap() {
     ...diagnoses.flatMap((diagnosis) =>
       getDiagnosisSupportPages(diagnosis).map((page) => supportPagePath(diagnosis, page.slug))
     ),
-    "/practice/",
     "/blog/",
     ...blogPosts.map((post) => `/blog/${post.slug}/`),
     ...informationalPages.map((page) => `/${page.slug}/`),
@@ -1391,7 +1332,6 @@ for (const diagnosis of diagnoses) {
     renderSupportPage(diagnosis, page);
   }
 }
-renderPracticePage();
 renderBlogIndex();
 for (const post of blogPosts) {
   renderBlogPost(post);
