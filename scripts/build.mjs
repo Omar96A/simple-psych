@@ -818,6 +818,9 @@ function renderHomePage() {
             criteria, practical context, validated scales, treatment guidance, and key literature
             in one place.
           </p>
+          <div class="hero-actions">
+            <a class="hero-button" href="/practice/">Practice Questions</a>
+          </div>
         </div>
       </section>
       <section class="workspace workspace--centered">

@@ -27,22 +27,49 @@ function seededShuffle(items, seed) {
   return result;
 }
 
-function formatArticleReference(article, index) {
-  return {
-    label: `${index + 1}. ${article.title}`,
-    url: article.url,
-  };
+function pickDistractors(currentDiagnosis, count, seed, matcher = () => true) {
+  const pool = diagnoses.filter((diagnosis) => diagnosis.id !== currentDiagnosis.id && matcher(diagnosis));
+  return seededShuffle(pool, seed).slice(0, count);
+}
+
+function getCriterionItems(diagnosis) {
+  return diagnosis.criteria.flatMap((criterion) =>
+    criterion.items.map((item) => ({
+      criterion: criterion.title,
+      item,
+    }))
+  );
+}
+
+function getRuleOutItem(diagnosis) {
+  return (
+    getCriterionItems(diagnosis).find(({ item }) =>
+      /not attributable|not due|better explained|ruled out|never been|substance|medical condition|psychotic disorder/i.test(item)
+    ) ?? {
+      criterion: diagnosis.criteria.at(-1)?.title ?? "Criterion",
+      item: diagnosis.criteria.at(-1)?.items?.[0] ?? diagnosis.summary,
+    }
+  );
+}
+
+function getSymptomCluster(diagnosis) {
+  return (
+    getCriterionItems(diagnosis).find(({ item }) =>
+      /symptom|include|delusions|hallucinations|obsessions|compulsions|worry|hyperactivity|inattention|sleep|binge|panic|decreased need for sleep|goal-directed/i.test(
+        item
+      )
+    ) ?? {
+      criterion: diagnosis.criteria[0]?.title ?? "Criterion A",
+      item: diagnosis.criteria[0]?.items?.[0] ?? diagnosis.summary,
+    }
+  );
 }
 
 function getDiagnosisSources(diagnosis) {
-  const articles = getReferenceArticles(diagnosis.id, diagnosis.name);
-  return [
-    {
-      label: `${diagnosis.name} study guide`,
-      url: diagnosisPath(diagnosis.id),
-    },
-    ...articles.slice(0, 2).map(formatArticleReference),
-  ];
+  return getReferenceArticles(diagnosis.id, diagnosis.name).slice(0, 3).map((article, index) => ({
+    label: `${index + 1}. ${article.title}`,
+    url: article.url,
+  }));
 }
 
 function dedupeSources(sources) {
@@ -57,69 +84,79 @@ function dedupeSources(sources) {
   });
 }
 
-function pickOtherDiagnoses(currentDiagnosis, count, seed, matcher = () => true) {
-  const pool = diagnoses.filter((diagnosis) => diagnosis.id !== currentDiagnosis.id && matcher(diagnosis));
-  return seededShuffle(pool, seed).slice(0, count);
-}
-
-function findRuleOutItem(diagnosis) {
-  return (
-    diagnosis.criteria
-      .flatMap((criterion) =>
-        criterion.items.map((item) => ({
-          title: criterion.title,
-          item,
+function choosePatientProfile(diagnosis, seed) {
+  const childLike =
+    /autism|adhd|nightmare|sleep|narcolepsy|anorexia|bulimia|binge|panic/i.test(diagnosis.id) ||
+    /Neurodevelopmental Disorders|Sleep-Wake Disorders/.test(diagnosis.category);
+  const ages = childLike ? [8, 11, 14, 16, 17, 19] : [22, 27, 31, 36, 42, 54];
+  const roles = childLike
+    ? ["student", "middle-school student", "high-school student", "college student"]
+    : ["teacher", "graduate student", "accountant", "nurse", "engineer", "office manager"];
+  const pronouns = [
+    { subject: "he", object: "him", possessive: "his" },
+    { subject: "she", object: "her", possessive: "her" },
+    { subject: "they", object: "them", possessive: "their" },
+  ];
+  const choice = seededShuffle(
+    ages.flatMap((age) =>
+      roles.flatMap((role) =>
+        pronouns.map((pronoun) => ({
+          age,
+          role,
+          pronoun,
         }))
       )
-      .find(({ item }) =>
-        /not attributable|better explained|ruled out|never been|not due|not better explained|substance|medical/i.test(item)
-      ) ?? {
-      title: diagnosis.criteria[diagnosis.criteria.length - 1]?.title ?? "Criterion",
-      item: diagnosis.criteria[diagnosis.criteria.length - 1]?.items?.[0] ?? diagnosis.summary,
-    }
-  );
+    ),
+    seed
+  )[0];
+  return choice;
 }
 
-function buildOption(id, text, isCorrect, explanation, sources) {
-  return {
-    id,
-    text,
-    isCorrect,
-    explanation,
-    sources,
-  };
+function buildVignette(diagnosis, seed) {
+  const patient = choosePatientProfile(diagnosis, `${diagnosis.id}-${seed}`);
+  const symptomCluster = getSymptomCluster(diagnosis).item;
+  const clinicalFrame = diagnosis.highlights?.[0]?.text ?? diagnosis.summary;
+  return `A ${patient.age}-year-old ${patient.role} presents for psychiatric evaluation. The clinical picture is summarized as follows: ${diagnosis.summary} ${clinicalFrame} Additional findings are most consistent with this statement: ${symptomCluster}`;
 }
 
-function buildRecognitionQuestion(diagnosis, index) {
-  const distractors = pickOtherDiagnoses(
+function option(id, text, isCorrect, explanation, sources) {
+  return { id, text, isCorrect, explanation, sources };
+}
+
+function distractorDiagnoses(diagnosis, seed) {
+  const sameCategory = pickDistractors(
     diagnosis,
-    3,
-    `${diagnosis.id}-recognition-${index}`,
+    4,
+    `${seed}-same-category`,
     (candidate) => candidate.category === diagnosis.category
   );
-  const fallbackDistractors =
-    distractors.length === 3
-      ? distractors
-      : [
-          ...distractors,
-          ...pickOtherDiagnoses(diagnosis, 3 - distractors.length, `${diagnosis.id}-recognition-fallback-${index}`),
-        ];
 
-  const stem = `A psychiatry resident is reviewing a case that fits this description: ${diagnosis.summary} ${diagnosis.highlights?.[0]?.text ?? ""} Which diagnosis best fits this clinical picture?`;
+  if (sameCategory.length === 4) {
+    return sameCategory;
+  }
+
+  return [
+    ...sameCategory,
+    ...pickDistractors(diagnosis, 4 - sameCategory.length, `${seed}-fallback`),
+  ].slice(0, 4);
+}
+
+function buildRecognitionQuestion(diagnosis) {
+  const distractors = distractorDiagnoses(diagnosis, `${diagnosis.id}-recognition`);
   const options = [
-    buildOption(
+    option(
       "A",
       diagnosis.name,
       true,
-      `${diagnosis.name} is the best fit because the vignette is built from this diagnosis page's summary and high-yield framing points.`,
+      `${diagnosis.name} is correct because the vignette mirrors the syndrome-level summary and high-yield framing points used in the source set for this diagnosis.`,
       getDiagnosisSources(diagnosis)
     ),
-    ...fallbackDistractors.map((candidate, optionIndex) =>
-      buildOption(
-        String.fromCharCode(66 + optionIndex),
+    ...distractors.map((candidate, index) =>
+      option(
+        String.fromCharCode(66 + index),
         candidate.name,
         false,
-        `${candidate.name} is a reasonable distractor, but its core framing on Simple Psych emphasizes a different syndrome and diagnostic anchor.`,
+        `${candidate.name} is less likely because its defining syndrome in the cited literature emphasizes a different diagnostic anchor, time course, or symptom constellation.`,
         getDiagnosisSources(candidate)
       )
     ),
@@ -128,31 +165,31 @@ function buildRecognitionQuestion(diagnosis, index) {
   return {
     id: `${diagnosis.id}-recognition`,
     diagnosisId: diagnosis.id,
-    mode: "recognition",
-    stem,
+    stem: `${buildVignette(diagnosis, "recognition")} Which diagnosis is the best match?`,
     options: seededShuffle(options, `${diagnosis.id}-recognition-options`),
-    takeaway: `When a board-style vignette is broad, anchor yourself to the central diagnostic frame rather than any single isolated symptom.`,
+    takeaway:
+      "The most efficient first step on psychiatry board items is usually to identify the organizing syndrome before chasing individual details.",
     studyGuidePath: diagnosisPath(diagnosis.id),
   };
 }
 
-function buildThresholdQuestion(diagnosis) {
-  const distractors = pickOtherDiagnoses(diagnosis, 3, `${diagnosis.id}-threshold`);
-  const correctText = diagnosis.criteria[0]?.items?.[0] ?? diagnosis.summary;
+function buildDiagnosticThresholdQuestion(diagnosis) {
+  const correct = diagnosis.criteria[0]?.items?.[0] ?? diagnosis.summary;
+  const distractors = distractorDiagnoses(diagnosis, `${diagnosis.id}-threshold`);
   const options = [
-    buildOption(
+    option(
       "A",
-      correctText,
+      correct,
       true,
-      `This is the threshold language summarized under ${diagnosis.criteria[0]?.title ?? "the opening criterion"} for ${diagnosis.name}.`,
+      `This option best reflects the threshold statement that opens the DSM-style summary for ${diagnosis.name}, which is usually the sentence that determines whether the syndrome is even on the table.`,
       getDiagnosisSources(diagnosis)
     ),
     ...distractors.map((candidate, index) =>
-      buildOption(
+      option(
         String.fromCharCode(66 + index),
         candidate.criteria[0]?.items?.[0] ?? candidate.summary,
         false,
-        `This threshold statement belongs to ${candidate.name}, not ${diagnosis.name}.`,
+        `This threshold statement belongs more closely to ${candidate.name} and would redirect the differential toward that diagnosis instead.`,
         getDiagnosisSources(candidate)
       )
     ),
@@ -161,81 +198,65 @@ function buildThresholdQuestion(diagnosis) {
   return {
     id: `${diagnosis.id}-threshold`,
     diagnosisId: diagnosis.id,
-    mode: "criteria-threshold",
-    stem: `Which statement best matches the DSM-style threshold language summarized for ${diagnosis.name}?`,
+    stem: `According to the diagnostic summary and supporting literature for ${diagnosis.name}, which statement best captures the threshold feature that makes the diagnosis possible?`,
     options: seededShuffle(options, `${diagnosis.id}-threshold-options`),
-    takeaway: `Board questions often hinge on the opening threshold statement, so it helps to know the first criterion almost by reflex.`,
+    takeaway:
+      "Board-style questions frequently hinge on the opening threshold statement, so it is worth knowing the first criterion in clean language.",
     studyGuidePath: diagnosisPath(diagnosis.id),
   };
 }
 
-function buildSymptomClusterQuestion(diagnosis) {
-  const symptomItem =
-    diagnosis.criteria
-      .flatMap((criterion) =>
-        criterion.items
-          .filter((item) => /include|symptoms|talkative|obsessions|worry|delusions|compulsions|inattention|hyperactivity|decreased need for sleep/i.test(item))
-          .map((item) => ({ item, title: criterion.title }))
-      )[0] ??
-    { item: diagnosis.criteria[0]?.items?.[diagnosis.criteria[0].items.length - 1] ?? diagnosis.summary, title: diagnosis.criteria[0]?.title ?? "Criterion A" };
-  const distractors = pickOtherDiagnoses(diagnosis, 3, `${diagnosis.id}-symptom-cluster`);
+function buildDifferentialQuestion(diagnosis) {
+  const ruleOut = getRuleOutItem(diagnosis);
+  const distractors = distractorDiagnoses(diagnosis, `${diagnosis.id}-differential`);
   const options = [
-    buildOption(
+    option(
       "A",
-      symptomItem.item,
+      ruleOut.item,
       true,
-      `This symptom cluster is listed under ${symptomItem.title} on the ${diagnosis.name} page.`,
+      `This is the most defensible answer because the exclusion summarized under ${ruleOut.criterion} directly limits overdiagnosis of ${diagnosis.name} in a broad psychiatric differential.`,
       getDiagnosisSources(diagnosis)
     ),
     ...distractors.map((candidate, index) => {
-      const candidateItem =
-        candidate.criteria
-          .flatMap((criterion) =>
-            criterion.items
-              .filter((item) => /include|symptoms|talkative|obsessions|worry|delusions|compulsions|inattention|hyperactivity|decreased need for sleep/i.test(item))
-              .map((item) => item)
-          )[0] ??
-        candidate.criteria[0]?.items?.[0] ??
-        candidate.summary;
-
-      return buildOption(
+      const candidateRuleOut = getRuleOutItem(candidate);
+      return option(
         String.fromCharCode(66 + index),
-        candidateItem,
+        candidateRuleOut.item,
         false,
-        `This symptom description is tied more closely to ${candidate.name}.`,
+        `This exclusion statement is clinically valid, but it is aligned more strongly with ${candidate.name} than with ${diagnosis.name}.`,
         getDiagnosisSources(candidate)
       );
     }),
   ];
 
   return {
-    id: `${diagnosis.id}-symptom-cluster`,
+    id: `${diagnosis.id}-differential`,
     diagnosisId: diagnosis.id,
-    mode: "criteria-symptom-cluster",
-    stem: `A PRITE-style item asks you to recognize the symptom cluster most characteristic of ${diagnosis.name}. Which option is the best match?`,
-    options: seededShuffle(options, `${diagnosis.id}-symptom-cluster-options`),
-    takeaway: `When several diagnoses seem possible, the symptom cluster itself often tells you which page you should open first.`,
+    stem: `A resident wants to avoid premature closure on ${diagnosis.name}. Which statement is the best exclusionary or differential-diagnosis principle to keep in mind?`,
+    options: seededShuffle(options, `${diagnosis.id}-differential-options`),
+    takeaway:
+      "Differential diagnosis questions are often won by recognizing what would argue against the diagnosis, not just what initially points toward it.",
     studyGuidePath: diagnosisPath(diagnosis.id),
   };
 }
 
 function buildScaleQuestion(diagnosis) {
-  const distractors = pickOtherDiagnoses(diagnosis, 3, `${diagnosis.id}-scale`);
   const correctScale = diagnosis.scales[0];
+  const distractors = distractorDiagnoses(diagnosis, `${diagnosis.id}-scale`);
   const options = [
-    buildOption(
+    option(
       "A",
       correctScale.name,
       true,
-      `${correctScale.name} is listed on the ${diagnosis.name} page as a validated scale and is described as ${correctScale.use.toLowerCase()}`,
+      `${correctScale.name} is correct because it is listed as a validated instrument for ${diagnosis.name} and is the strongest match for the severity-tracking use case described in the source summary.`,
       getDiagnosisSources(diagnosis)
     ),
     ...distractors.map((candidate, index) =>
-      buildOption(
+      option(
         String.fromCharCode(66 + index),
         candidate.scales[0]?.name ?? candidate.name,
         false,
-        `${candidate.scales[0]?.name ?? candidate.name} is associated more directly with ${candidate.name} in this question bank.`,
+        `${candidate.scales[0]?.name ?? candidate.name} is associated more strongly with ${candidate.name}; using it here would reduce diagnostic specificity.`,
         getDiagnosisSources(candidate)
       )
     ),
@@ -244,32 +265,32 @@ function buildScaleQuestion(diagnosis) {
   return {
     id: `${diagnosis.id}-scale`,
     diagnosisId: diagnosis.id,
-    mode: "scale-selection",
-    stem: `Which validated scale from the Simple Psych library is the best match for following ${diagnosis.name}?`,
+    stem: `A clinician wants a validated rating scale to follow severity over time in a patient with ${diagnosis.name}. Which of the following is the best match?`,
     options: seededShuffle(options, `${diagnosis.id}-scale-options`),
-    takeaway: `Residents are often tested on which scales go with which disorder, not just on the diagnosis itself.`,
+    takeaway:
+      "Knowing which scales go with which disorder is a high-yield board skill because it links diagnosis, monitoring, and treatment response.",
     studyGuidePath: diagnosisPath(diagnosis.id),
   };
 }
 
 function buildTreatmentQuestion(diagnosis) {
-  const distractors = pickOtherDiagnoses(diagnosis, 3, `${diagnosis.id}-treatment`);
-  const correctDrug = diagnosis.medications?.[0]?.drugs?.[0] ?? diagnosis.offLabelTreatments?.[0] ?? diagnosis.name;
+  const correct = diagnosis.medications?.[0]?.drugs?.[0] ?? diagnosis.offLabelTreatments?.[0] ?? diagnosis.name;
+  const distractors = distractorDiagnoses(diagnosis, `${diagnosis.id}-treatment`);
   const options = [
-    buildOption(
+    option(
       "A",
-      correctDrug,
+      correct,
       true,
-      `${correctDrug} appears in the FDA-approved treatment section for ${diagnosis.name} on Simple Psych.`,
+      `${correct} is the best answer because it appears in the FDA-approved treatment section for ${diagnosis.name} and aligns with the management literature linked for this diagnosis.`,
       getDiagnosisSources(diagnosis)
     ),
     ...distractors.map((candidate, index) => {
-      const distractorDrug = candidate.medications?.[0]?.drugs?.[0] ?? candidate.offLabelTreatments?.[0] ?? candidate.name;
-      return buildOption(
+      const drug = candidate.medications?.[0]?.drugs?.[0] ?? candidate.offLabelTreatments?.[0] ?? candidate.name;
+      return option(
         String.fromCharCode(66 + index),
-        distractorDrug,
+        drug,
         false,
-        `${distractorDrug} is presented in this bank as more closely tied to ${candidate.name}.`,
+        `${drug} is a plausible psychiatry medication distractor, but in the cited source set it is linked more directly to ${candidate.name} than to ${diagnosis.name}.`,
         getDiagnosisSources(candidate)
       );
     }),
@@ -278,65 +299,98 @@ function buildTreatmentQuestion(diagnosis) {
   return {
     id: `${diagnosis.id}-treatment`,
     diagnosisId: diagnosis.id,
-    mode: "treatment-selection",
-    stem: `Which medication is listed in the FDA-approved treatment section for ${diagnosis.name}?`,
+    stem: `A board-style treatment question asks which medication is FDA-approved for the core syndrome summarized as ${diagnosis.name}. Which option is best supported by the cited management literature?`,
     options: seededShuffle(options, `${diagnosis.id}-treatment-options`),
-    takeaway: `For boards and PRITE review, separating FDA-labeled options from off-label patterns is a useful first pass.`,
+    takeaway:
+      "When several medications seem familiar, separate FDA-labeled options from merely common psychiatric medications.",
     studyGuidePath: diagnosisPath(diagnosis.id),
   };
 }
 
-function buildOffLabelQuestion(diagnosis) {
-  const distractors = pickOtherDiagnoses(diagnosis, 3, `${diagnosis.id}-offlabel`);
-  const correctDrug = diagnosis.offLabelTreatments?.[0] ?? diagnosis.medications?.[0]?.drugs?.[0] ?? diagnosis.name;
+function buildManagementQuestion(diagnosis) {
+  const article = getReferenceArticles(diagnosis.id, diagnosis.name)[0];
+  const correctText = diagnosis.highlights?.[1]?.text ?? diagnosis.highlights?.[0]?.text ?? diagnosis.summary;
+  const distractors = distractorDiagnoses(diagnosis, `${diagnosis.id}-management`);
   const options = [
-    buildOption(
+    option(
       "A",
-      correctDrug,
+      correctText,
       true,
-      `${correctDrug} is listed in the off-label treatment section for ${diagnosis.name}.`,
+      `This answer is most consistent with the management emphasis reflected in the supporting literature for ${diagnosis.name}, especially ${article?.title ?? "the linked review literature"}.`,
       getDiagnosisSources(diagnosis)
     ),
-    ...distractors.map((candidate, index) => {
-      const candidateDrug = candidate.offLabelTreatments?.[0] ?? candidate.medications?.[0]?.drugs?.[0] ?? candidate.name;
-      return buildOption(
+    ...distractors.map((candidate, index) =>
+      option(
         String.fromCharCode(66 + index),
-        candidateDrug,
+        candidate.highlights?.[1]?.text ?? candidate.highlights?.[0]?.text ?? candidate.summary,
         false,
-        `${candidateDrug} is used here as a distractor because it is linked more closely to ${candidate.name}.`,
+        `This management framing is more characteristic of ${candidate.name}; it does not best capture the clinical priority set described for ${diagnosis.name}.`,
         getDiagnosisSources(candidate)
-      );
-    }),
+      )
+    ),
   ];
 
   return {
-    id: `${diagnosis.id}-offlabel`,
+    id: `${diagnosis.id}-management`,
     diagnosisId: diagnosis.id,
-    mode: "offlabel-selection",
-    stem: `Which option is listed as a common off-label treatment pattern for ${diagnosis.name}?`,
-    options: seededShuffle(options, `${diagnosis.id}-offlabel-options`),
-    takeaway: `Off-label items are common distractors, so it helps to know which medications live outside the FDA-labeled section for a diagnosis.`,
+    stem: `According to the core management literature linked for ${diagnosis.name}, which clinical principle is the most defensible first-pass framing point for decision-making?`,
+    options: seededShuffle(options, `${diagnosis.id}-management-options`),
+    takeaway:
+      "The strongest management answer is usually the one that reframes the case around risk, polarity, syndrome structure, or diagnostic uncertainty.",
+    studyGuidePath: diagnosisPath(diagnosis.id),
+  };
+}
+
+function buildCourseQuestion(diagnosis) {
+  const correct = diagnosis.highlights?.[0]?.text ?? diagnosis.summary;
+  const distractors = distractorDiagnoses(diagnosis, `${diagnosis.id}-course`);
+  const options = [
+    option(
+      "A",
+      correct,
+      true,
+      `This option best captures the longitudinal or syndrome-level pattern that should orient the clinician toward ${diagnosis.name}.`,
+      getDiagnosisSources(diagnosis)
+    ),
+    ...distractors.map((candidate, index) =>
+      option(
+        String.fromCharCode(66 + index),
+        candidate.highlights?.[0]?.text ?? candidate.summary,
+        false,
+        `This longitudinal pattern would be more typical for ${candidate.name}, not ${diagnosis.name}.`,
+        getDiagnosisSources(candidate)
+      )
+    ),
+  ];
+
+  return {
+    id: `${diagnosis.id}-course`,
+    diagnosisId: diagnosis.id,
+    stem: `Which description of course, pattern, or overall syndrome organization is most consistent with ${diagnosis.name}?`,
+    options: seededShuffle(options, `${diagnosis.id}-course-options`),
+    takeaway:
+      "Course-based language is common in board questions because it separates disorders that share symptoms but not trajectory.",
     studyGuidePath: diagnosisPath(diagnosis.id),
   };
 }
 
 function buildInterventionalQuestion(diagnosis) {
-  const distractors = pickOtherDiagnoses(diagnosis, 3, `${diagnosis.id}-interventional`);
-  const correctText = diagnosis.interventionalOptions?.[0] ?? diagnosis.summary;
+  const correct = diagnosis.interventionalOptions?.[0] ?? diagnosis.summary;
+  const distractors = distractorDiagnoses(diagnosis, `${diagnosis.id}-interventional`);
   const options = [
-    buildOption(
+    option(
       "A",
-      correctText,
+      correct,
       true,
-      `This statement appears in the interventional psychiatry section for ${diagnosis.name}.`,
+      `This is the best answer because it reflects how interventional psychiatry is currently summarized for ${diagnosis.name} in relation to severity, refractoriness, or specific clinical states.`,
       getDiagnosisSources(diagnosis)
     ),
     ...distractors.map((candidate, index) =>
-      buildOption(
+      option(
         String.fromCharCode(66 + index),
         candidate.interventionalOptions?.[0] ?? candidate.summary,
         false,
-        `This interventional framing is summarized more closely under ${candidate.name}.`,
+        `This interventional statement is more consistent with ${candidate.name} than with ${diagnosis.name}.`,
         getDiagnosisSources(candidate)
       )
     ),
@@ -345,141 +399,106 @@ function buildInterventionalQuestion(diagnosis) {
   return {
     id: `${diagnosis.id}-interventional`,
     diagnosisId: diagnosis.id,
-    mode: "interventional-selection",
-    stem: `Which interventional psychiatry statement best matches the current Simple Psych summary for ${diagnosis.name}?`,
+    stem: `A treatment-resistant case prompts review of interventional options. Which statement best matches the current evidence-oriented summary for ${diagnosis.name}?`,
     options: seededShuffle(options, `${diagnosis.id}-interventional-options`),
-    takeaway: `Interventional options are easiest to remember when you connect them to the polarity, severity, or treatment-resistance pattern of the disorder.`,
+    takeaway:
+      "Interventional questions are usually testing whether you know when severity or refractoriness changes the usual treatment ladder.",
     studyGuidePath: diagnosisPath(diagnosis.id),
   };
 }
 
-function buildRuleOutQuestion(diagnosis) {
-  const distractors = pickOtherDiagnoses(diagnosis, 3, `${diagnosis.id}-ruleout`);
-  const correctRuleOut = findRuleOutItem(diagnosis);
+function buildVignetteManagementQuestion(diagnosis) {
+  const patient = choosePatientProfile(diagnosis, `${diagnosis.id}-vignette-management`);
+  const article = getReferenceArticles(diagnosis.id, diagnosis.name)[0];
+  const correct = diagnosis.medications?.[0]?.note ?? diagnosis.highlights?.[1]?.text ?? diagnosis.summary;
+  const distractors = distractorDiagnoses(diagnosis, `${diagnosis.id}-vignette-management`);
   const options = [
-    buildOption(
+    option(
       "A",
-      correctRuleOut.item,
+      correct,
       true,
-      `This rule-out or exclusion point is listed under ${correctRuleOut.title} for ${diagnosis.name}.`,
-      getDiagnosisSources(diagnosis)
-    ),
-    ...distractors.map((candidate, index) => {
-      const candidateRuleOut = findRuleOutItem(candidate);
-      return buildOption(
-        String.fromCharCode(66 + index),
-        candidateRuleOut.item,
-        false,
-        `This exclusion statement belongs more directly to ${candidate.name}.`,
-        getDiagnosisSources(candidate)
-      );
-    }),
-  ];
-
-  return {
-    id: `${diagnosis.id}-ruleout`,
-    diagnosisId: diagnosis.id,
-    mode: "ruleout-selection",
-    stem: `Which exclusion or rule-out statement best fits the diagnostic summary for ${diagnosis.name}?`,
-    options: seededShuffle(options, `${diagnosis.id}-ruleout-options`),
-    takeaway: `A lot of psychiatry questions turn on what rules a diagnosis out, not just what points toward it.`,
-    studyGuidePath: diagnosisPath(diagnosis.id),
-  };
-}
-
-function buildCategoryQuestion(diagnosis) {
-  const distractors = seededShuffle(
-    [...new Set(diagnoses.map((candidate) => candidate.category).filter((category) => category !== diagnosis.category))],
-    `${diagnosis.id}-category`
-  ).slice(0, 3);
-  const options = [
-    buildOption(
-      "A",
-      diagnosis.category,
-      true,
-      `${diagnosis.name} is filed under ${diagnosis.category} on the site.`,
-      getDiagnosisSources(diagnosis)
-    ),
-    ...distractors.map((category, index) => {
-      const matchingDiagnosis = diagnoses.find((candidate) => candidate.category === category);
-      return buildOption(
-        String.fromCharCode(66 + index),
-        category,
-        false,
-        `${category} is a real DSM-style grouping, but it is not the category used for ${diagnosis.name} here.`,
-        matchingDiagnosis ? getDiagnosisSources(matchingDiagnosis) : getDiagnosisSources(diagnosis)
-      );
-    }),
-  ];
-
-  return {
-    id: `${diagnosis.id}-category`,
-    diagnosisId: diagnosis.id,
-    mode: "category-selection",
-    stem: `Which DSM-style category on Simple Psych contains ${diagnosis.name}?`,
-    options: seededShuffle(options, `${diagnosis.id}-category-options`),
-    takeaway: `Board questions often get easier when you organize diagnoses by their broader category before narrowing to details.`,
-    studyGuidePath: diagnosisPath(diagnosis.id),
-  };
-}
-
-function buildHighestYieldQuestion(diagnosis) {
-  const distractors = pickOtherDiagnoses(diagnosis, 3, `${diagnosis.id}-highyield`);
-  const correctText = diagnosis.highlights?.[0]?.text ?? diagnosis.summary;
-  const options = [
-    buildOption(
-      "A",
-      correctText,
-      true,
-      `This is the high-yield clinical framing point emphasized on the ${diagnosis.name} page.`,
+      `This is the strongest answer because it matches the management note emphasized for ${diagnosis.name} and is the most consistent with ${article?.title ?? "the linked review literature"}.`,
       getDiagnosisSources(diagnosis)
     ),
     ...distractors.map((candidate, index) =>
-      buildOption(
+      option(
         String.fromCharCode(66 + index),
-        candidate.highlights?.[0]?.text ?? candidate.summary,
+        candidate.medications?.[0]?.note ?? candidate.highlights?.[1]?.text ?? candidate.summary,
         false,
-        `This framing point is more characteristic of ${candidate.name}.`,
+        `This would be more defensible if the vignette were pointing toward ${candidate.name}; it does not best fit the syndrome described here.`,
         getDiagnosisSources(candidate)
       )
     ),
   ];
 
   return {
-    id: `${diagnosis.id}-highyield`,
+    id: `${diagnosis.id}-vignette-management`,
     diagnosisId: diagnosis.id,
-    mode: "highyield-framing",
-    stem: `Which high-yield framing statement best matches ${diagnosis.name}?`,
-    options: seededShuffle(options, `${diagnosis.id}-highyield-options`),
-    takeaway: `Good psychiatry test-taking often starts with the one sentence that most cleanly frames the disorder.`,
+    stem: `A ${patient.age}-year-old ${patient.role} is being discussed on rounds after the team identifies ${diagnosis.name} as the working diagnosis. According to the linked review literature, which management statement is most appropriate at a broad board-review level?`,
+    options: seededShuffle(options, `${diagnosis.id}-vignette-management-options`),
+    takeaway:
+      "Many board-review management items are really asking whether you know the treatment lane before you know the exact medication choice.",
+    studyGuidePath: diagnosisPath(diagnosis.id),
+  };
+}
+
+function buildScientificComparisonQuestion(diagnosis) {
+  const correct = getSymptomCluster(diagnosis);
+  const distractors = distractorDiagnoses(diagnosis, `${diagnosis.id}-scientific-comparison`);
+  const options = [
+    option(
+      "A",
+      correct.item,
+      true,
+      `This answer is correct because it names the symptom cluster or phenomenon most strongly emphasized under ${correct.criterion} for ${diagnosis.name}.`,
+      getDiagnosisSources(diagnosis)
+    ),
+    ...distractors.map((candidate, index) => {
+      const candidateCluster = getSymptomCluster(candidate);
+      return option(
+        String.fromCharCode(66 + index),
+        candidateCluster.item,
+        false,
+        `This clinical description is scientifically coherent, but it maps more closely onto ${candidate.name} than onto ${diagnosis.name}.`,
+        getDiagnosisSources(candidate)
+      );
+    }),
+  ];
+
+  return {
+    id: `${diagnosis.id}-scientific-comparison`,
+    diagnosisId: diagnosis.id,
+    stem: `Which finding would most specifically support ${diagnosis.name} over other plausible psychiatric diagnoses in a board-style differential?`,
+    options: seededShuffle(options, `${diagnosis.id}-scientific-comparison-options`),
+    takeaway:
+      "High-quality differential questions reward the answer that is most specific, not merely compatible.",
     studyGuidePath: diagnosisPath(diagnosis.id),
   };
 }
 
 function decorateQuestion(question, index) {
-  const references = dedupeSources(question.options.flatMap((option) => option.sources));
   return {
     ...question,
     number: index + 1,
-    references,
+    references: dedupeSources(question.options.flatMap((item) => item.sources)),
   };
 }
 
-const questionBuilders = [
+const builders = [
   buildRecognitionQuestion,
-  buildThresholdQuestion,
-  buildSymptomClusterQuestion,
+  buildDiagnosticThresholdQuestion,
+  buildDifferentialQuestion,
   buildScaleQuestion,
   buildTreatmentQuestion,
-  buildOffLabelQuestion,
+  buildManagementQuestion,
+  buildCourseQuestion,
   buildInterventionalQuestion,
-  buildRuleOutQuestion,
-  buildCategoryQuestion,
+  buildVignetteManagementQuestion,
 ];
 
 const practiceQuestions = diagnoses
-  .flatMap((diagnosis) => questionBuilders.map((builder, index) => builder(diagnosis, index)))
-  .concat(diagnoses.slice(0, 7).map((diagnosis) => buildHighestYieldQuestion(diagnosis)))
+  .flatMap((diagnosis) => builders.map((builder) => builder(diagnosis)))
+  .concat(diagnoses.slice(0, 7).map((diagnosis) => buildScientificComparisonQuestion(diagnosis)))
   .slice(0, 200)
   .map(decorateQuestion);
 
