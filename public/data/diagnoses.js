@@ -352,18 +352,35 @@ export const diagnoses = [
     ],
     criteria: [
       {
-        title: "Criterion A1",
+        title: "Criterion A1: Inattention",
         items: [
-          "Six or more symptoms of inattention persist for at least 6 months, or 5 or more if age 17 or older.",
-          "The symptoms are inconsistent with developmental level and negatively affect functioning.",
-          "Inattention symptoms include careless mistakes, difficulty sustaining attention, seeming not to listen, not following through on instructions, difficulty organizing tasks, avoiding sustained mental effort, losing necessary items, distractibility, and forgetfulness.",
+          "Six or more symptoms of inattention are present for at least 6 months, or five or more if age 17 years or older.",
+          "The symptoms are inconsistent with developmental level and have a direct negative effect on social, academic, or occupational activities.",
+          "Often fails to give close attention to details or makes careless mistakes in schoolwork, work, or other activities.",
+          "Often has difficulty sustaining attention in tasks or play activities.",
+          "Often does not seem to listen when spoken to directly.",
+          "Often does not follow through on instructions and fails to finish schoolwork, chores, or duties in the workplace.",
+          "Often has difficulty organizing tasks and activities.",
+          "Often avoids, dislikes, or is reluctant to engage in tasks that require sustained mental effort.",
+          "Often loses things necessary for tasks or activities.",
+          "Is often easily distracted by extraneous stimuli or unrelated thoughts.",
+          "Is often forgetful in daily activities.",
         ],
       },
       {
-        title: "Criterion A2",
+        title: "Criterion A2: Hyperactivity and Impulsivity",
         items: [
-          "Six or more symptoms of hyperactivity-impulsivity persist for at least 6 months, or 5 or more if age 17 or older.",
-          "Hyperactivity-impulsivity symptoms include fidgeting, leaving seat when expected to remain seated, running or climbing in inappropriate situations or inner restlessness, difficulty engaging quietly, acting as if driven by a motor, excessive talking, blurting out answers, trouble waiting, and interrupting or intruding on others.",
+          "Six or more symptoms of hyperactivity and impulsivity are present for at least 6 months, or five or more if age 17 years or older.",
+          "The symptoms are inconsistent with developmental level and have a direct negative effect on social, academic, or occupational activities.",
+          "Often fidgets with or taps hands or feet or squirms in seat.",
+          "Often leaves seat in situations when remaining seated is expected.",
+          "Often runs about or climbs in situations where it is inappropriate, or in adolescents and adults may feel restless.",
+          "Often unable to play or engage in leisure activities quietly.",
+          "Is often on the go or often acts as if driven by a motor.",
+          "Often talks excessively.",
+          "Often blurts out an answer before a question has been completed.",
+          "Often has difficulty waiting turn.",
+          "Often interrupts or intrudes on others.",
         ],
       },
       {
@@ -388,6 +405,22 @@ export const diagnoses = [
         title: "Criterion E",
         items: [
           "Symptoms interfere with social, academic, or occupational functioning and are not better explained by another mental disorder.",
+        ],
+      },
+      {
+        title: "Specify Current Presentation",
+        items: [
+          "Predominantly inattentive presentation applies if enough inattentive symptoms are present but enough hyperactive-impulsive symptoms have not been present for the past 6 months.",
+          "Predominantly hyperactive-impulsive presentation applies if enough hyperactive-impulsive symptoms are present but enough inattentive symptoms have not been present for the past 6 months.",
+          "Combined presentation applies if both inattentive and hyperactive-impulsive symptom thresholds have been met for the past 6 months.",
+        ],
+      },
+      {
+        title: "Specify Severity",
+        items: [
+          "Mild applies when few, if any, symptoms beyond the diagnostic threshold are present and impairment is minor.",
+          "Moderate applies when symptoms or impairment fall between mild and severe.",
+          "Severe applies when many symptoms beyond the diagnostic threshold are present, several symptoms are especially severe, or symptoms cause marked impairment.",
         ],
       },
     ],
