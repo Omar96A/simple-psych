@@ -27,15 +27,20 @@ export const diagnoses = [
         items: [
           "Five or more symptoms are present during the same 2-week period and represent a change from previous functioning.",
           "At least one of the symptoms is either depressed mood or markedly diminished interest or pleasure.",
-          "The symptom set may include depressed mood most of the day, nearly every day.",
-          "The symptom set may include markedly diminished interest or pleasure in nearly all activities.",
-          "The symptom set may include significant weight loss, weight gain, or appetite change when not dieting.",
-          "The symptom set may include insomnia or hypersomnia nearly every day.",
-          "The symptom set may include psychomotor agitation or retardation observable by others.",
-          "The symptom set may include fatigue or loss of energy nearly every day.",
-          "The symptom set may include feelings of worthlessness or excessive or inappropriate guilt.",
-          "The symptom set may include diminished ability to think, concentrate, or make decisions.",
-          "The symptom set may include recurrent thoughts of death, suicidal ideation, a suicide plan, or a suicide attempt.",
+        ],
+      },
+      {
+        title: "Criterion A symptom list",
+        items: [
+          "Depressed mood most of the day, nearly every day, as reported by the patient or observed by others.",
+          "Markedly diminished interest or pleasure in all or almost all activities most of the day, nearly every day.",
+          "Significant weight loss when not dieting, significant weight gain, or a clear decrease or increase in appetite nearly every day.",
+          "Insomnia or hypersomnia nearly every day.",
+          "Psychomotor agitation or psychomotor retardation nearly every day that is observable by others, not just a subjective sense of restlessness or being slowed down.",
+          "Fatigue or loss of energy nearly every day.",
+          "Feelings of worthlessness or excessive or inappropriate guilt, which may be delusional, nearly every day.",
+          "Diminished ability to think, concentrate, or make decisions nearly every day.",
+          "Recurrent thoughts of death, recurrent suicidal ideation without a specific plan, a suicide attempt, or a specific suicide plan.",
         ],
       },
       {
@@ -139,13 +144,18 @@ export const diagnoses = [
         title: "Criterion B",
         items: [
           "During the period of mood disturbance and increased energy or activity, 3 or more of the following symptoms are present to a significant degree, or 4 if the mood is only irritable:",
+        ],
+      },
+      {
+        title: "Criterion B symptom list",
+        items: [
           "Inflated self-esteem or grandiosity.",
-          "Decreased need for sleep.",
+          "Decreased need for sleep, such as feeling rested after only a few hours.",
           "More talkative than usual or pressure to keep talking.",
-          "Flight of ideas or racing thoughts.",
-          "Distractibility.",
-          "Increase in goal-directed activity or psychomotor agitation.",
-          "Excessive involvement in risky or high-consequence activities.",
+          "Flight of ideas or the subjective experience that thoughts are racing.",
+          "Distractibility, meaning attention is too easily drawn to unimportant or irrelevant external stimuli.",
+          "Increase in goal-directed activity socially, at work or school, sexually, or psychomotor agitation.",
+          "Excessive involvement in activities that have a high potential for painful consequences, such as spending sprees, sexual indiscretions, or reckless business investments.",
         ],
       },
       {
@@ -484,10 +494,23 @@ export const diagnoses = [
         title: "Criterion A",
         items: [
           "Obsessions, compulsions, or both are present.",
-          "Obsessions are recurrent and persistent thoughts, urges, or images that are experienced as intrusive and unwanted and usually cause anxiety or distress.",
-          "The person attempts to ignore, suppress, or neutralize obsessions with another thought or action.",
-          "Compulsions are repetitive behaviors or mental acts performed in response to an obsession or according to rigid rules.",
-          "The compulsions are aimed at preventing or reducing anxiety or some dreaded event or situation, but are either not realistically connected to what they are designed to prevent or are clearly excessive.",
+        ],
+      },
+      {
+        title: "Criterion A1: Obsessions",
+        items: [
+          "Obsessions are recurrent and persistent thoughts, urges, or images that are experienced as intrusive and unwanted.",
+          "The obsessions usually cause marked anxiety or distress.",
+          "The person attempts to ignore, suppress, or neutralize the obsessions with another thought or action.",
+        ],
+      },
+      {
+        title: "Criterion A2: Compulsions",
+        items: [
+          "Compulsions are repetitive behaviors such as washing, checking, or ordering, or mental acts such as praying, counting, or repeating words silently.",
+          "The compulsions are performed in response to an obsession or according to rules that must be applied rigidly.",
+          "The behaviors or mental acts are aimed at preventing or reducing anxiety or distress, or at preventing some dreaded event or situation.",
+          "The behaviors or mental acts are either not realistically connected to what they are meant to prevent or are clearly excessive.",
         ],
       },
       {
@@ -559,8 +582,19 @@ export const diagnoses = [
       {
         title: "Criterion C",
         items: [
-          "The anxiety and worry are associated with at least 3 of the following for more days than not: restlessness or feeling keyed up, easy fatigability, difficulty concentrating or mind going blank, irritability, muscle tension, and sleep disturbance.",
+          "The anxiety and worry are associated with at least 3 of the following 6 symptoms, with at least some symptoms present for more days than not during the past 6 months.",
           "In children, only 1 associated symptom is required.",
+        ],
+      },
+      {
+        title: "Criterion C symptom list",
+        items: [
+          "Restlessness or feeling keyed up or on edge.",
+          "Being easily fatigued.",
+          "Difficulty concentrating or the mind going blank.",
+          "Irritability.",
+          "Muscle tension.",
+          "Sleep disturbance, including difficulty falling asleep, difficulty staying asleep, or restless unsatisfying sleep.",
         ],
       },
       {
@@ -621,7 +655,25 @@ export const diagnoses = [
         items: [
           "Recurrent unexpected panic attacks occur.",
           "A panic attack is an abrupt surge of intense fear or intense discomfort that reaches a peak within minutes.",
-          "During the surge, 4 or more symptoms occur such as palpitations, sweating, trembling, shortness of breath, feelings of choking, chest discomfort, nausea, dizziness, chills or heat sensations, paresthesias, derealization or depersonalization, fear of losing control, or fear of dying.",
+        ],
+      },
+      {
+        title: "Panic attack symptom list",
+        items: [
+          "Palpitations, pounding heart, or accelerated heart rate.",
+          "Sweating.",
+          "Trembling or shaking.",
+          "Sensations of shortness of breath or smothering.",
+          "Feelings of choking.",
+          "Chest pain or chest discomfort.",
+          "Nausea or abdominal distress.",
+          "Feeling dizzy, unsteady, lightheaded, or faint.",
+          "Chills or heat sensations.",
+          "Paresthesias such as numbness or tingling sensations.",
+          "Derealization or depersonalization.",
+          "Fear of losing control or going crazy.",
+          "Fear of dying.",
+          "Four or more of these symptoms occur during the attack.",
         ],
       },
       {
@@ -936,15 +988,30 @@ export const diagnoses = [
       {
         title: "Criterion A",
         items: [
-          "Persistent deficits in social-emotional reciprocity are present.",
-          "Persistent deficits in nonverbal communicative behaviors used for social interaction are present.",
-          "Persistent deficits in developing, maintaining, and understanding relationships are present.",
+          "Persistent deficits in social communication and social interaction are present across multiple contexts.",
+        ],
+      },
+      {
+        title: "Criterion A social-communication domains",
+        items: [
+          "Deficits in social-emotional reciprocity are present, such as abnormal social approach, reduced back-and-forth conversation, reduced sharing of interests or emotions, or failure to initiate or respond socially in a typical way.",
+          "Deficits in nonverbal communicative behaviors used for social interaction are present, such as problems with eye contact, body language, gestures, or integrating verbal and nonverbal communication.",
+          "Deficits in developing, maintaining, and understanding relationships are present, such as trouble adjusting behavior to suit different social contexts, difficulty sharing imaginative play, or difficulty making friends.",
         ],
       },
       {
         title: "Criterion B",
         items: [
-          "At least 2 restricted or repetitive behavior features are present, such as stereotyped movements or speech, insistence on sameness or inflexible routines, highly restricted interests, or hyper- or hyporeactivity to sensory input.",
+          "Restricted, repetitive patterns of behavior, interests, or activities are present, with at least 2 manifestations required.",
+        ],
+      },
+      {
+        title: "Criterion B restricted or repetitive domains",
+        items: [
+          "Stereotyped or repetitive motor movements, use of objects, or speech.",
+          "Insistence on sameness, inflexible adherence to routines, or ritualized patterns of verbal or nonverbal behavior.",
+          "Highly restricted, fixated interests that are abnormal in intensity or focus.",
+          "Hyperreactivity or hyporeactivity to sensory input, or unusual interest in sensory aspects of the environment.",
         ],
       },
       {
@@ -1016,6 +1083,19 @@ export const diagnoses = [
         title: "Criterion C",
         items: [
           "There is disturbance in body-weight or shape experience, undue influence of body weight or shape on self-evaluation, or persistent lack of recognition of the seriousness of low body weight.",
+        ],
+      },
+      {
+        title: "Specify subtype",
+        items: [
+          "Restricting type: during the last 3 months, weight loss has primarily been achieved through dieting, fasting, or excessive exercise, without recurrent binge-eating or purging.",
+          "Binge-eating or purging type: during the last 3 months, recurrent binge-eating or purging behavior has been present.",
+        ],
+      },
+      {
+        title: "Specify severity",
+        items: [
+          "Severity is commonly framed by current body mass index in adults, while remembering that clinical severity also depends on medical instability, rate of weight loss, compensatory behaviors, and functional impairment.",
         ],
       },
     ],
@@ -1257,7 +1337,21 @@ export const diagnoses = [
       {
         title: "Criterion B",
         items: [
-          "At least 5 of the following are present: frantic efforts to avoid abandonment, unstable intense relationships, identity disturbance, impulsivity in potentially self-damaging areas, recurrent suicidal behavior or self-injury, affective instability, chronic emptiness, intense anger, or transient stress-related paranoia or dissociation.",
+          "At least 5 of the following features are present.",
+        ],
+      },
+      {
+        title: "Criterion B feature list",
+        items: [
+          "Frantic efforts to avoid real or imagined abandonment.",
+          "A pattern of unstable and intense interpersonal relationships characterized by alternating between extremes of idealization and devaluation.",
+          "Identity disturbance, including markedly and persistently unstable self-image or sense of self.",
+          "Impulsivity in at least 2 areas that are potentially self-damaging, such as spending, sex, substance use, reckless driving, or binge eating.",
+          "Recurrent suicidal behavior, gestures, or threats, or self-mutilating behavior.",
+          "Affective instability due to marked reactivity of mood.",
+          "Chronic feelings of emptiness.",
+          "Inappropriate, intense anger or difficulty controlling anger.",
+          "Transient stress-related paranoid ideation or severe dissociative symptoms.",
         ],
       },
     ],
