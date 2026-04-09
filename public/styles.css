@@ -574,6 +574,23 @@ input[type="search"]:focus {
   margin-top: 12px;
 }
 
+.references-list {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.references-list li + li {
+  margin-top: 10px;
+}
+
+.references-list a {
+  color: var(--accent-deep);
+}
+
+.references-list a:hover {
+  text-decoration: underline;
+}
+
 .blog-list {
   display: grid;
   gap: 14px;

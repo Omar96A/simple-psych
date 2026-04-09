@@ -1164,6 +1164,24 @@ function renderBlogPost(post) {
               )
               .join("")}
             ${
+              post.references?.length
+                ? `
+                  <section class="profile-section">
+                    <h3>References</h3>
+                    <ul class="references-list">
+                      ${post.references
+                        .map(
+                          (reference) => `
+                            <li><a href="${escapeHtml(reference.href)}" target="_blank" rel="noreferrer">${escapeHtml(reference.label)}</a></li>
+                          `
+                        )
+                        .join("")}
+                    </ul>
+                  </section>
+                `
+                : ""
+            }
+            ${
               relatedDiagnosis
                 ? `
                   <section class="profile-section">
