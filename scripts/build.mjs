@@ -1082,7 +1082,7 @@ function renderBlogIndex() {
               <a class="back-link" href="/">← Back to all diagnoses</a>
               <p class="profile-category">Blog</p>
               <h1>Simple Psych Blog</h1>
-              <p class="lede lede--narrow">New posts can be published by adding another entry to <code>public/data/blogPosts.js</code> and redeploying.</p>
+              <p class="lede lede--narrow">Short, clinically focused articles on psychiatry topics, practical comparisons, and treatment concepts that come up often in real-world care.</p>
             </header>
             <div class="blog-list">
               ${posts
