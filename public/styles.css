@@ -605,6 +605,13 @@ input[type="search"]:focus {
   text-transform: uppercase;
 }
 
+.blog-card__author {
+  margin: -2px 0 14px;
+  color: var(--muted);
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
 @media (max-width: 980px) {
   .workspace {
     grid-template-columns: 1fr;

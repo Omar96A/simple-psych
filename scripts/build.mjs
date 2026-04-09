@@ -1152,6 +1152,7 @@ function renderBlogPost(post) {
               <p class="profile-category">Blog</p>
               <h1>${escapeHtml(post.title)}</h1>
               <p class="blog-card__meta">${escapeHtml(post.date)}</p>
+              <p class="blog-card__author">By Simple Psych Team</p>
               <p class="lede lede--narrow">${escapeHtml(post.excerpt)}</p>
             </header>
             ${post.paragraphs
@@ -1206,6 +1207,10 @@ function renderBlogPost(post) {
     dateModified: post.date,
     url: `${siteUrl}/blog/${post.slug}/`,
     description: post.excerpt,
+    author: {
+      "@type": "Organization",
+      name: "Simple Psych Team",
+    },
   };
 
   fs.writeFileSync(
